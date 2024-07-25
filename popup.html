@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quick Note Taker</title>
+    <link rel="stylesheet" href="popup.css">
+</head>
+
+<body>
+<main>
+    <div id="window-title">
+        <h2>Quick Note Taker</h2>
+        <button id="back-button" type="button">
+            <img src="https://cdn.icon-icons.com/icons2/1946/PNG/512/1904671-arrow-arrow-right-change-direction-next-page-right_122521.png"
+                 alt="Back">
+        </button>
+    </div>
+    <div id="notes-window" class="window">
+        <div id="notes-list"></div>
+        <button id="new-note-button" type="button">+</button>
+        <button id="info-button" type="button"><span>i </span>About</button>
+    </div>
+    <div id="new-note-window" class="window">
+        <label for="note"></label><textarea id="note" placeholder="Write your note here..."></textarea>
+        <button id="save-button" type="button">Save Note</button>
+    </div>
+    <div id="preview-window" class="window">
+        <div id="preview"></div>
+        <button id="edit-button" type="button">
+            <img src="https://cdn.icon-icons.com/icons2/510/PNG/512/compose_icon-icons.com_50412.png" alt="Edit">
+        </button>
+    </div>
+    <div id="edit-window" class="window">
+        <label for="title-input"></label><input type="text" id="title-input" placeholder="Title">
+        <div class="flex-row">
+            <label for="color-input">Color:</label>
+            <select id="color-input">
+                <option value="#C0C0FF">Periwinkle</option>
+                <option value="#FFC0FF">Mauve</option>
+                <option value="#FFC0C0">Coral</option>
+                <option value="#C0FFC0">Lily</option>
+                <option value="#C0FFFF">Diamond</option>
+                <option value="#FFFFC0">Ivory</option>
+            </select>
+        </div>
+
+        <label for="content-input"></label><textarea id="content-input"
+                                                     placeholder="Write your note here..."></textarea>
+        <button id="save-edit-button" type="button">Save Note</button>
+        <button id="delete-button" type="button">Delete Note</button>
+    </div>
+    <div id="info-window" class="window">
+        <div class="info-row">
+            <p id="created-by">Created by <a href="https://github.com/m-sarabi" target="_blank">/m-sarabi</a></p>
+        </div>
+        <div id="my-website" class="info-row">
+            <p>Visit <a href="https://m-sarabi.ir/" target="_blank">m-sarabi.ir</a></p>
+        </div>
+        <div class="info-row">
+            <p id="version">Version: 1.0</p>
+        </div>
+    </div>
+    <div id="status"></div>
+</main>
+<!--<script src="popup.js"></script>-->
+<script src="js/script.js"></script>
+<script src="js/indexed_db.js"></script>
+</body>
+
+</html>
