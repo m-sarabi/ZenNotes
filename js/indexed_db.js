@@ -152,7 +152,7 @@ function updateNote(note) {
 
 class Note {
     constructor(content, id, title, color) {
-        this.content = content;
+        this.content = this.escapeHtml(content);
         this.id = id ? id : this.newId();
         this.title = title ? title : this.generateTitle();
         this.color = color ? color : this.randomColor();
@@ -173,23 +173,17 @@ class Note {
         return Date.now();
     }
 
-    createNoteElement() {
-        const noteElement = document.createElement('div');
-        noteElement.className = 'note-item';
-        noteElement.textContent = this.title.length > MAX_TITLE_LENGTH ? this.title.substring(0, MAX_TITLE_LENGTH) + '...' : this.title;
-        noteElement.setAttribute('data-id', this.id);
-        noteElement.style.backgroundColor = this.color;
-        noteElement.addEventListener('click', () => {
-            getNoteById(this.id).then((note) => {
-                console.log('Note clicked:', note);
-                currentNote = note;
-                notePreview(note);
-            });
-        });
-        return noteElement;
-    }
-
     randomColor() {
         return colors[Math.floor(Math.random() * colors.length)];
+    }
+
+    escapeHtml(unsafe) {
+        return unsafe
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;")
+            .replace(/`/g, "&#96;");
     }
 }

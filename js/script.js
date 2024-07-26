@@ -1,18 +1,28 @@
-// chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-//     console.log(sender.tab ?
-//         "from a content script:" + sender.tab.url :
-//         "from the extension");
-//     console.log('Received message from background script:', request);
-//     if (request.content) {
-//         addNote(new Note(request.content)).then();
-//     }
-//     sendResponse({received: true});
-// });
-
-// pastel colors for note backgrounds
-
 let currentNote = null;
 let currentWindow = null;
+
+function decodeHtml(html) {
+    const txt = document.createElement("textarea");
+    txt.innerHTML = html;
+    return txt.value;
+}
+
+function createNoteElement(note) {
+    const noteElement = document.createElement('div');
+    noteElement.className = 'note-item';
+    const decodedTitle = decodeHtml(note.title);
+    noteElement.textContent = decodedTitle.length > MAX_TITLE_LENGTH ? decodedTitle.substring(0, MAX_TITLE_LENGTH) + '...' : decodedTitle;
+    noteElement.setAttribute('data-id', note.id);
+    noteElement.style.backgroundColor = note.color;
+    noteElement.addEventListener('click', () => {
+        getNoteById(note.id).then((note) => {
+            console.log('Note clicked:', note);
+            currentNote = note;
+            notePreview(note);
+        });
+    });
+    return noteElement;
+}
 
 function updateNotesList() {
     const notesList = document.getElementById('notes-list');
@@ -20,9 +30,8 @@ function updateNotesList() {
         notesList.innerHTML = '';
         const fragment = document.createDocumentFragment();
         notes.forEach((note) => {
-            const noteElement = note.createNoteElement();
+            const noteElement = createNoteElement(note);
             fragment.appendChild(noteElement);
-            // notesList.appendChild(noteElement);
         });
         notesList.appendChild(fragment);
     });
@@ -70,7 +79,8 @@ function showWindow(windowId) {
             backButton.style.display = 'None';
             break;
         case 'preview-window':
-            titleElement.textContent = currentNote.title.length > MAX_TITLE_LENGTH ? currentNote.title.substring(0, MAX_TITLE_LENGTH) + '...' : currentNote.title;
+            const decodedTitle = decodeHtml(currentNote.title);
+            titleElement.textContent = decodedTitle.length > MAX_TITLE_LENGTH ? decodedTitle.substring(0, MAX_TITLE_LENGTH) + '...' : decodedTitle;
             backButton.style.display = 'block';
             break;
         case 'edit-window':
@@ -88,7 +98,8 @@ function notePreview(note) {
     showWindow('preview-window');
     document.getElementById('window-title').style.backgroundColor = note.color;
     const preview = document.getElementById('preview');
-    preview.innerHTML = note.content.replace(/\n/g, '<br>');
+    const decodedContent = decodeHtml(note.content);
+    preview.innerHTML = decodedContent.replace(/\n/g, '<br>');
 }
 
 function saveNote() {
