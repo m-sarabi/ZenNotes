@@ -1,5 +1,7 @@
+// global variables
 let currentNote = null;
 let currentWindow = null;
+let isDark
 
 function decodeHtml(html) {
     const txt = document.createElement("textarea");
@@ -125,6 +127,23 @@ function saveNote() {
     }
 }
 
+function themeHandler() {
+    isDark = localStorage.getItem('theme') === 'dark-mode';
+    console.log(isDark);
+
+    document.body.classList.toggle('dark-mode', isDark);
+    document.body.classList.toggle('light-mode', !isDark);
+
+    // temp: Temporary change theme button
+    document.getElementById('change-theme').addEventListener('click', () => {
+        isDark = !document.body.classList.contains('dark-mode')
+        document.body.classList.toggle('dark-mode', isDark);
+        document.body.classList.toggle('light-mode', isDark);
+
+        localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark-mode' : 'light-mode');
+    });
+}
+
 function initEvents() {
     document.addEventListener('click', function (event) {
         if (event.target.id === 'new-note-button') {
@@ -167,6 +186,7 @@ function initEvents() {
 function init() {
     initEvents();
     updateNotesList();
+    themeHandler();
 
     const colorOptions = document.getElementById('color-input').getElementsByTagName('option');
     for (let i = 0; i < colorOptions.length; i++) {
