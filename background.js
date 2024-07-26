@@ -12,11 +12,19 @@ chrome.runtime.onInstalled.addListener(function () {
 
 chrome.contextMenus.onClicked.addListener(function (info, tab) {
     if (info.menuItemId === "saveAsNote") {
-        selectedText = info.selectionText;
-        console.log("Selected text:", selectedText);
-        const note = new Note(selectedText);
-        addNote(note).then(() => {
-            console.log("Note added:", note);
-        });
+        chrome.scripting.executeScript({
+            target: {tabId: tab.id},
+            files: ["js/content_script.js"]
+        }, function () {
+            chrome.tabs.sendMessage(tab.id, {message: "getSelectedText"}, function (response) {
+                if (response && response.content) {
+                    selectedText = response.content;
+                    const note = new Note(selectedText);
+                    addNote(note).then(() => {
+                        console.log("Note added:", note);
+                    });
+                }
+            });
+        })
     }
 });
