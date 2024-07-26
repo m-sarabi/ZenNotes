@@ -23,6 +23,12 @@ Quick Note Taker is a Chromium extension that allows you to quickly take notes d
 3. Click on the extension icon to view and manage your notes.
 4. Alternatively, you can use the popup interface to create, edit, and delete notes.
 
+## Planned Features
+
+- Add search functionality.
+- Add transition animations between pages.
+- Hovering buttons on each note for quick actions.
+
 ## License
 
 This project is licensed under the MIT License.
