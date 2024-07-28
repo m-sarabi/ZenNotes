@@ -295,6 +295,7 @@ input[type="text"] {
     padding: 10px;
     position: relative;
     overflow: auto;
+    min-height: 100%;
 }
 
 .note-item {
