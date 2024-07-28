@@ -104,6 +104,7 @@ class ExpandingNoteCard {
             this.card.style.height = document.getElementById('notes-wrapper').offsetHeight - 40 + 'px';
             this.card.style.userSelect = 'text';
             currentNote = this.note;
+            document.getElementById('new-note-button').classList.add('hide');
             setTimeout(() => {
                 if (!this.card.classList.contains('expanded')) return;
                 this.card.classList.add('full');
@@ -114,6 +115,7 @@ class ExpandingNoteCard {
             this.card.style.top = `${this.index * 50 + 10}px`;
             this.card.style.height = '40px';
             this.card.scrollTo(0, 0);
+            document.getElementById('new-note-button').classList.remove('hide');
             setTimeout(() => {
                 if (this.card.classList.contains('expanded')) return;
                 this.card.style.userSelect = 'none';

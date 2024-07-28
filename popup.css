@@ -231,7 +231,7 @@ input[type="text"] {
 
 #new-note-button {
     position: absolute;
-    bottom: 5px;
+    bottom: 25px;
     right: 15px;
     border-radius: 50%;
     border: none;
@@ -241,7 +241,13 @@ input[type="text"] {
     align-items: center;
     font-size: 32px;
     cursor: pointer;
+    z-index: 3;
     transition: 0.2s ease;
+}
+
+#new-note-button.hide {
+    opacity: 0;
+    pointer-events: none;
 }
 
 #edit-button {
@@ -442,7 +448,7 @@ option {
     user-select: none;
     scroll-behavior: smooth;
     scrollbar-width: none;
-    transition: top 0.5s ease, height 0.5s ease, width 0.5s cubic-bezier(1, 0, 1, 1), box-shadow 1s ease;
+    transition: top 0.5s ease, height 0.5s ease, width 0.5s cubic-bezier(0.5, 0, 0.5, 1), box-shadow 1s ease;
 }
 
 .card h3 {
@@ -478,7 +484,7 @@ option {
     box-shadow: 0 2px 8px #000a;
     cursor: default;
     border: 0 solid #0005;
-    transition: top 0.5s ease, height 0.5s ease, width 0.5s cubic-bezier(0, 1, 1, 1), box-shadow 1s ease;
+    transition: top 0.5s ease, height 0.75s ease, width 0.5s cubic-bezier(0, 1, 0.5, 1), box-shadow 1s ease;
 }
 
 .card.full {
