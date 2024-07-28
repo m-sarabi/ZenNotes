@@ -1,10 +1,10 @@
 const colors = [
-    '#FFC0C0',
-    '#FFFFC0',
-    '#FFC0FF',
-    '#C0FFC0',
-    '#C0FFFF',
-    '#C0C0FF',
+    '#FFD0D0',
+    '#FFFFD0',
+    '#FFD0FF',
+    '#D0FFD0',
+    '#D0FFFF',
+    '#D0D0FF',
 ];
 const MAX_TITLE_LENGTH = 22;
 
@@ -20,6 +20,7 @@ function openDB() {
                 store.createIndex('title', 'title', {unique: false});
                 store.createIndex('content', 'content', {unique: false});
                 store.createIndex('color', 'color', {unique: false});
+                store.createIndex('order', 'order', {unique: false});
 
 
                 store.transaction.oncomplete = () => {
@@ -51,7 +52,8 @@ function addNote(note) {
                 content: note.content,
                 noteId: note.id,
                 title: note.title,
-                color: note.color
+                color: note.color,
+                order: note.order
             });
 
             request.onsuccess = () => {
@@ -76,7 +78,7 @@ function getNotes() {
             cursor.onsuccess = (event) => {
                 const cursor = event.target.result;
                 if (cursor) {
-                    notes.push(new Note(cursor.value.content, cursor.value.noteId, cursor.value.title, cursor.value.color));
+                    notes.push(new Note(cursor.value.content, cursor.value.noteId, cursor.value.title, cursor.value.color, cursor.value.order));
                     cursor.continue();
                 } else {
                     resolve(notes);
@@ -116,7 +118,7 @@ function getNoteById(noteId) {
             const request = store.get(noteId);
 
             request.onsuccess = () => {
-                resolve(new Note(request.result.content, request.result.noteId, request.result.title, request.result.color));
+                resolve(new Note(request.result.content, request.result.noteId, request.result.title, request.result.color, request.result.order));
             };
 
             request.onerror = () => {
@@ -135,7 +137,8 @@ function updateNote(note) {
                 content: note.content,
                 noteId: note.id,
                 title: note.title,
-                color: note.color
+                color: note.color,
+                order: note.order
             });
 
             request.onsuccess = () => {
@@ -148,42 +151,4 @@ function updateNote(note) {
             };
         });
     });
-}
-
-class Note {
-    constructor(content, id, title, color) {
-        this.content = this.escapeHtml(content);
-        this.id = id ? id : this.newId();
-        this.title = title ? title : this.generateTitle();
-        this.color = color ? color : this.randomColor();
-    }
-
-    generateTitle() {
-        let title;
-        if (this.content.startsWith('#')) {
-            title = this.content.slice(1).split('\n')[0];
-            this.content = this.content.slice(title.length + 1).trim();
-        } else {
-            title = this.content.split('\n')[0];
-        }
-        return title;
-    }
-
-    newId() {
-        return Date.now();
-    }
-
-    randomColor() {
-        return colors[Math.floor(Math.random() * colors.length)];
-    }
-
-    escapeHtml(unsafe) {
-        return unsafe
-            .replace(/&/g, "&amp;")
-            .replace(/</g, "&lt;")
-            .replace(/>/g, "&gt;")
-            .replace(/"/g, "&quot;")
-            .replace(/'/g, "&#039;")
-            .replace(/`/g, "&#96;");
-    }
 }

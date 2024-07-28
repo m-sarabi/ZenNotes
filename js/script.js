@@ -1,41 +1,31 @@
 // global variables
 let currentNote = null;
 let currentWindow = null;
-let isDark
+let isDark;
+let noteCounter = 0;
 
 function decodeHtml(html) {
-    const txt = document.createElement("textarea");
+    const txt = document.createElement('textarea');
     txt.innerHTML = html;
     return txt.value;
 }
 
-function createNoteElement(note) {
-    const noteElement = document.createElement('div');
-    noteElement.className = 'note-item';
-    const decodedTitle = decodeHtml(note.title);
-    noteElement.textContent = decodedTitle.length > MAX_TITLE_LENGTH ? decodedTitle.substring(0, MAX_TITLE_LENGTH) + '...' : decodedTitle;
-    noteElement.setAttribute('data-id', note.id);
-    noteElement.style.backgroundColor = note.color;
-    noteElement.addEventListener('click', () => {
-        getNoteById(note.id).then((note) => {
-            console.log('Note clicked:', note);
-            currentNote = note;
-            notePreview(note);
-        });
-    });
-    return noteElement;
+function createNoteElement(note, index) {
+    return note.element.render(index);
 }
 
 function updateNotesList() {
     const notesList = document.getElementById('notes-list');
     getNotes().then((notes) => {
+        noteCounter = notes.length;
         notesList.innerHTML = '';
         const fragment = document.createDocumentFragment();
-        notes.forEach((note) => {
-            const noteElement = createNoteElement(note);
+        notes.forEach((note, index) => {
+            const noteElement = createNoteElement(note, index);
             fragment.appendChild(noteElement);
         });
         notesList.appendChild(fragment);
+        notesList.style.height = notes.length * 50 + 10 + 'px';
     });
 }
 
@@ -61,9 +51,10 @@ function closeWindows() {
 }
 
 function showWindow(windowId) {
-    document.getElementById('window-title').style.backgroundColor = "#a7d2ff";
+    document.getElementById('edit-button').classList.toggle('show', false);
+    document.getElementById('window-title').style.backgroundColor = '#a7d2ff';
     currentWindow = windowId;
-    console.log(currentWindow);
+    // console.log(currentWindow);
     updateNotesList();
     const titleElement = document.querySelector('#window-title h2');
     const backButton = document.getElementById('back-button');
@@ -80,11 +71,6 @@ function showWindow(windowId) {
             titleElement.textContent = 'Notes';
             backButton.style.display = 'None';
             break;
-        case 'preview-window':
-            const decodedTitle = decodeHtml(currentNote.title);
-            titleElement.textContent = decodedTitle.length > MAX_TITLE_LENGTH ? decodedTitle.substring(0, MAX_TITLE_LENGTH) + '...' : decodedTitle;
-            backButton.style.display = 'block';
-            break;
         case 'edit-window':
             titleElement.textContent = 'Edit Note';
             backButton.style.display = 'block';
@@ -94,14 +80,6 @@ function showWindow(windowId) {
             backButton.style.display = 'block';
             break;
     }
-}
-
-function notePreview(note) {
-    showWindow('preview-window');
-    document.getElementById('window-title').style.backgroundColor = note.color;
-    const preview = document.getElementById('preview');
-    const decodedContent = decodeHtml(note.content);
-    preview.innerHTML = decodedContent.replace(/\n/g, '<br>');
 }
 
 function saveNote() {
@@ -129,19 +107,49 @@ function saveNote() {
 
 function themeHandler() {
     isDark = localStorage.getItem('theme') === 'dark-mode';
-    console.log(isDark);
 
     document.body.classList.toggle('dark-mode', isDark);
     document.body.classList.toggle('light-mode', !isDark);
 
     // temp: Temporary change theme button
     document.getElementById('change-theme').addEventListener('click', () => {
-        isDark = !document.body.classList.contains('dark-mode')
+        isDark = !document.body.classList.contains('dark-mode');
         document.body.classList.toggle('dark-mode', isDark);
         document.body.classList.toggle('light-mode', isDark);
 
         localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark-mode' : 'light-mode');
     });
+}
+
+function dragScrollEvent() {
+    const scrollContainer = document.getElementById('notes-wrapper');
+    let dragging = false;
+    scrollContainer.addEventListener('pointerdown', startDrag);
+    scrollContainer.addEventListener('pointerup', endDrag);
+    scrollContainer.addEventListener('pointermove', drag);
+
+    function startDrag(event) {
+        if (event.target.classList.contains('card') || event.target.parentNode.classList.contains('card')) return;
+
+        if (currentNote && currentNote.element.card.classList.contains('expanded')) {
+            currentNote.element.toggleExpand();
+        }
+
+        dragging = true;
+        scrollContainer.setPointerCapture(event.pointerId);
+    }
+
+    function endDrag(event) {
+        dragging = false;
+        scrollContainer.releasePointerCapture(event.pointerId);
+    }
+
+    function drag(event) {
+        if (currentNote && currentNote.element.card.classList.contains('expanded')) return;
+        if (dragging && event.buttons === 1) {
+            scrollContainer.scrollTop -= event.movementY;
+        }
+    }
 }
 
 function initEvents() {
@@ -161,7 +169,7 @@ function initEvents() {
                 document.getElementById('content-input').value,
                 currentNote.id,
                 document.getElementById('title-input').value,
-                document.getElementById('color-input').value
+                document.getElementById('color-input').value,
             );
             updateNote(newNote).then(() => {
                 updateNotesList();
@@ -181,6 +189,7 @@ function initEvents() {
             event.target.style.backgroundColor = event.target.value;
         }
     });
+    dragScrollEvent();
 }
 
 function init() {

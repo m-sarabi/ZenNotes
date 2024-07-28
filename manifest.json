@@ -30,7 +30,8 @@
   "web_accessible_resources": [
     {
       "resources": [
-        "js/indexed_db.js"
+        "js/indexed_db.js",
+        "js/classes.js"
       ],
       "matches": [
         "<all_urls>"
