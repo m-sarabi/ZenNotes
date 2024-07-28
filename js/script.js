@@ -52,7 +52,7 @@ function closeWindows() {
 
 function showWindow(windowId) {
     document.getElementById('edit-button').classList.toggle('show', false);
-    document.getElementById('window-title').style.backgroundColor = '#a7d2ff';
+    // document.getElementById('window-title').style.backgroundColor = '#a7d2ff';
     currentWindow = windowId;
     // console.log(currentWindow);
     updateNotesList();
@@ -152,6 +152,15 @@ function dragScrollEvent() {
     }
 }
 
+function disableScroll() {
+    document.addEventListener('scroll', function (event) {
+        if (event.target.classList.contains('card') && !event.target.classList.contains('expanded')) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
+    });
+}
+
 function initEvents() {
     document.addEventListener('click', function (event) {
         if (event.target.id === 'new-note-button') {
@@ -190,6 +199,7 @@ function initEvents() {
         }
     });
     dragScrollEvent();
+    disableScroll();
 }
 
 function init() {

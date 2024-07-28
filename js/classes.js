@@ -50,11 +50,13 @@ class ExpandingNoteCard {
         this.index = index;
         const title = document.createElement('h3');
         title.textContent = this.note.title;
-        const content = document.createElement('p');
-        content.textContent = this.note.content;
         this.card.style.backgroundColor = this.note.color;
         this.card.appendChild(title);
-        this.card.appendChild(content);
+        this.note.content.split('\n').forEach((line) => {
+            const content = document.createElement('p');
+            content.textContent = line;
+            this.card.appendChild(content);
+        });
         this.card.style.top = `${index * 50 + 10}px`;
         this.card.style.zIndex = '1';
 
@@ -99,13 +101,19 @@ class ExpandingNoteCard {
             document.getElementById('edit-button').classList.toggle('show', true);
             this.card.style.top = `${document.getElementById('notes-wrapper').scrollTop + 10}px`;
             this.card.style.zIndex = '2';
-            this.card.style.height = document.getElementById('notes-wrapper').offsetHeight - 20 + 'px';
+            this.card.style.height = document.getElementById('notes-wrapper').offsetHeight - 40 + 'px';
             this.card.style.userSelect = 'text';
             currentNote = this.note;
+            setTimeout(() => {
+                if (!this.card.classList.contains('expanded')) return;
+                this.card.classList.add('full');
+            }, 500);
         } else {
+            this.card.classList.remove('full');
             document.getElementById('edit-button').classList.toggle('show', false);
             this.card.style.top = `${this.index * 50 + 10}px`;
             this.card.style.height = '40px';
+            this.card.scrollTo(0, 0);
             setTimeout(() => {
                 if (this.card.classList.contains('expanded')) return;
                 this.card.style.userSelect = 'none';
