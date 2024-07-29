@@ -1,6 +1,7 @@
 class Note {
     constructor(content, id, title, color) {
-        this.content = this.escapeHtml(content);
+        // this.content = this.escapeHtml(content);
+        this.content = content;
         this.id = id ? id : this.newId();
         this.title = title ? title : this.generateTitle();
         this.color = color ? color : this.randomColor();
@@ -27,14 +28,10 @@ class Note {
         return colors[Math.floor(Math.random() * colors.length)];
     }
 
-    escapeHtml(unsafe) {
-        return unsafe
-            .replace(/&/g, '&amp;')
-            .replace(/</g, '&lt;')
-            .replace(/>/g, '&gt;')
-            .replace(/"/g, '&quot;')
-            .replace(/'/g, '&#039;')
-            .replace(/`/g, '&#96;');
+    decodeText(text) {
+        const txt = document.createElement('textarea');
+        txt.innerHTML = text;
+        return txt.value;
     }
 }
 
@@ -49,12 +46,17 @@ class ExpandingNoteCard {
     render(index) {
         this.index = index;
         const title = document.createElement('h3');
-        title.textContent = this.note.title;
+        title.textContent = this.note.decodeText(
+            this.note.title.length > MAX_TITLE_LENGTH ?
+                this.note.title.slice(0, MAX_TITLE_LENGTH) + '...' :
+                this.note.title,
+        );
         this.card.style.backgroundColor = this.note.color;
         this.card.appendChild(title);
         this.note.content.split('\n').forEach((line) => {
             const content = document.createElement('p');
-            content.textContent = line;
+            // content.textContent = line;
+            content.textContent = this.note.decodeText(line);
             this.card.appendChild(content);
         });
         this.card.style.top = `${index * 50 + 10}px`;
@@ -79,6 +81,7 @@ class ExpandingNoteCard {
         });
 
         this.card.addEventListener('click', (event) => {
+            console.log(this.note.content);
             let endX = event.clientX;
             let endY = event.clientY;
 

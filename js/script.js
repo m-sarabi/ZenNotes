@@ -4,12 +4,6 @@ let currentWindow = null;
 let isDark;
 let noteCounter = 0;
 
-function decodeHtml(html) {
-    const txt = document.createElement('textarea');
-    txt.innerHTML = html;
-    return txt.value;
-}
-
 function createNoteElement(note, index) {
     return note.element.render(index);
 }
