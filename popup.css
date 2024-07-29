@@ -460,11 +460,17 @@ option {
     max-width: calc(100% - 10px);
     overflow: hidden;
     text-overflow: ellipsis;
+    display: -webkit-box;
+    line-clamp: 1;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
     transition: transform 0.5s ease;
     transform-origin: 50% 0;
 }
 
 .card.expanded h3 {
+    line-clamp: 2;
+    -webkit-line-clamp: 2;
     transform: scale(1);
 }
 
