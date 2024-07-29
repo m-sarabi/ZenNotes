@@ -128,7 +128,6 @@ class ExpandingNoteCard {
             } else {
                 currentNote = null;
             }
-
         }
     }
 }
