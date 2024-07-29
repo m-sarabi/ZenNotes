@@ -122,7 +122,7 @@ class ExpandingNoteCard {
                 this.card.style.userSelect = 'none';
                 this.card.style.zIndex = '1';
             }, 1000);
-            if (event.target && event.target.classList.contains('edit-button')) {
+            if (event && event.target.classList.contains('edit-button')) {
                 updateEditWindow();
                 showWindow('edit-window');
             } else {
