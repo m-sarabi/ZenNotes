@@ -9,6 +9,13 @@
 </head>
 
 <body class="light-mode">
+
+<template id="edit-btn-template">
+    <button class="edit-button" type="button">
+        <img src="./assets/edit.svg" alt="Edit">
+    </button>
+</template>
+
 <div id="test-float" class="floating-window">test</div>
 <main>
     <div id="window-title">
@@ -25,9 +32,6 @@
         </div>
         <button id="new-note-button" type="button">+</button>
         <button id="info-button" type="button"><span>i </span>About</button>
-        <button id="edit-button" type="button">
-            <img src="https://cdn.icon-icons.com/icons2/510/PNG/512/compose_icon-icons.com_50412.png" alt="Edit">
-        </button>
     </div>
     <div id="new-note-window" class="window">
         <label for="note"></label><textarea id="note" placeholder="Write your note here..."></textarea>

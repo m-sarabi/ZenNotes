@@ -41,14 +41,17 @@ class ExpandingNoteCard {
         this.card = document.createElement('div');
         this.card.className = 'card';
         this.card.setAttribute('data-id', note.id);
+        this.editButton = document.getElementById('edit-btn-template').content.cloneNode(true);
     }
 
     render(index) {
         this.index = index;
         const title = document.createElement('h3');
-        title.textContent = this.note.decodeText(this.note.title)
+        title.textContent = this.note.decodeText(this.note.title);
         this.card.style.backgroundColor = this.note.color;
         this.card.appendChild(title);
+
+        this.card.appendChild(this.editButton);
         this.note.content.split('\n').forEach((line) => {
             const content = document.createElement('p');
             content.textContent = this.note.decodeText(line);
@@ -86,17 +89,17 @@ class ExpandingNoteCard {
                 return;
             }
 
-            this.toggleExpand();
+            this.toggleExpand(event);
         });
     }
 
-    toggleExpand() {
+    toggleExpand(event) {
         if (currentNote && !this.card.classList.contains('expanded') && currentNote !== this.note) {
             return;
         }
         this.card.classList.toggle('expanded');
         if (this.card.classList.contains('expanded')) {
-            document.getElementById('edit-button').classList.toggle('show', true);
+            // document.getElementById('edit-button').classList.toggle('show', true);
             this.card.style.top = `${document.getElementById('notes-wrapper').scrollTop + 10}px`;
             this.card.style.zIndex = '2';
             this.card.style.height = document.getElementById('notes-wrapper').offsetHeight - 40 + 'px';
@@ -109,7 +112,7 @@ class ExpandingNoteCard {
             }, 500);
         } else {
             this.card.classList.remove('full');
-            document.getElementById('edit-button').classList.toggle('show', false);
+            // document.getElementById('edit-button').classList.toggle('show', false);
             this.card.style.top = `${this.index * 50 + 10}px`;
             this.card.style.height = '40px';
             this.card.scrollTo(0, 0);
@@ -119,7 +122,13 @@ class ExpandingNoteCard {
                 this.card.style.userSelect = 'none';
                 this.card.style.zIndex = '1';
             }, 1000);
-            currentNote = null;
+            if (event.target.classList.contains('edit-button')) {
+                updateEditWindow();
+                showWindow('edit-window');
+            } else {
+                currentNote = null;
+            }
+
         }
     }
 }

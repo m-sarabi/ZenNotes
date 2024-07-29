@@ -45,8 +45,6 @@ function closeWindows() {
 }
 
 function showWindow(windowId) {
-    document.getElementById('edit-button').classList.toggle('show', false);
-    // document.getElementById('window-title').style.backgroundColor = '#a7d2ff';
     currentWindow = windowId;
     // console.log(currentWindow);
     updateNotesList();
@@ -164,10 +162,10 @@ function initEvents() {
         } else if (event.target.id === 'back-button') {
             document.getElementById('note').value = '';
             showWindow('notes-window');
-        } else if (event.target.id === 'edit-button') {
+        } /*else if (event.target.classList.contains('edit-button')) {
             updateEditWindow();
             showWindow('edit-window');
-        } else if (event.target.id === 'save-edit-button') {
+        } */else if (event.target.id === 'save-edit-button') {
             const newNote = new Note(
                 document.getElementById('content-input').value,
                 currentNote.id,
