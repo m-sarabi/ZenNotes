@@ -457,6 +457,9 @@ option {
     line-height: 34px;
     margin-bottom: 10px;
     transform: scale(0.85);
+    max-width: calc(100% - 10px);
+    overflow: hidden;
+    text-overflow: ellipsis;
     transition: transform 0.5s ease;
     transform-origin: 50% 0;
 }
@@ -470,7 +473,8 @@ option {
     font-size: 18px;
     line-height: 26px;
     font-family: 'Indie Flower', cursive;
-    /*min-height: 120px;*/
+    max-width: calc(100% - 10px);
+    overflow-wrap: break-word;
     background-image: repeating-linear-gradient(transparent, transparent 24px, #9ae8 25px, #9ae8 26px);
     background-position-y: -4px;
     background-attachment: local;

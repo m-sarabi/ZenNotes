@@ -46,10 +46,7 @@ class ExpandingNoteCard {
     render(index) {
         this.index = index;
         const title = document.createElement('h3');
-        const decodedTitle = this.note.decodeText(this.note.title);
-        title.textContent = decodedTitle.length > MAX_TITLE_LENGTH ?
-            decodedTitle.slice(0, MAX_TITLE_LENGTH) + '...' :
-            decodedTitle;
+        title.textContent = this.note.decodeText(this.note.title)
         this.card.style.backgroundColor = this.note.color;
         this.card.appendChild(title);
         this.note.content.split('\n').forEach((line) => {
