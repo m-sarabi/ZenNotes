@@ -231,8 +231,11 @@ input[type="text"] {
 
 #new-note-button {
     position: absolute;
-    bottom: 25px;
+    bottom: 45px;
     right: 15px;
+    background: none;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
     border: none;
     color: white;
@@ -242,7 +245,19 @@ input[type="text"] {
     font-size: 32px;
     cursor: pointer;
     z-index: 3;
+    opacity: 0.5;
+    transform: scale(0.8);
     transition: 0.2s ease;
+}
+
+#new-note-button:hover {
+    opacity: 1;
+    transform: scale(1);
+}
+
+#new-note-button img {
+    width: 100%;
+    height: 100%;
 }
 
 #new-note-button.hide {
@@ -268,12 +283,6 @@ input[type="text"] {
     z-index: 3;
     opacity: 1;
     transition: opacity 0.2s ease;
-}
-
-#new-note-button {
-    background-color: #007bff;
-    width: 40px;
-    height: 40px;
 }
 
 .edit-button > img {
@@ -358,7 +367,6 @@ textarea {
 }
 
 #save-button:hover,
-#new-note-button:hover,
 #save-edit-button:hover {
     background-color: #0056b3;
 }
@@ -367,7 +375,6 @@ textarea {
     background-color: #a71d2a;
 }
 
-#new-note-button:hover,
 .edit-button:hover {
     opacity: 0.5;
 }
