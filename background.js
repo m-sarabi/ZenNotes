@@ -1,5 +1,3 @@
-importScripts('js/indexed_db.js');
-
 let selectedText = "";
 
 chrome.runtime.onInstalled.addListener(function () {
