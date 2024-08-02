@@ -48,6 +48,7 @@ class ExpandingNoteCard {
         this.index = index;
         const title = document.createElement('h3');
         title.textContent = this.note.decodeText(this.note.title);
+        setDirection(title, this.note.title);
         this.card.style.backgroundColor = `var(${this.note.color})`;
         this.card.appendChild(title);
 
@@ -55,6 +56,7 @@ class ExpandingNoteCard {
         this.note.content.split('\n').forEach((line) => {
             const content = document.createElement('p');
             content.textContent = this.note.decodeText(line);
+            setDirection(content, line);
             this.card.appendChild(content);
         });
         this.card.style.top = `${index * 50 + 10}px`;
@@ -147,5 +149,11 @@ class FlyingStatus {
                 this.element.remove();
             }, 2000);
         }, 50);
+    }
+}
+
+function setDirection(element, text) {
+    if (/^[^a-zA-Z\u0600-\u06FF]*[\u0600-\u06FF]/.test(text)) {
+        element.dir = 'rtl';
     }
 }
