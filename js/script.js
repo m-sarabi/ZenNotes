@@ -15,6 +15,9 @@ function updateNotesList() {
         notesList.innerHTML = '';
         const fragment = document.createDocumentFragment();
         notes.forEach((note, index) => {
+            if (!note.element) {
+                note.element = new ExpandingNoteCard(note);
+            }
             const noteElement = createNoteElement(note, index);
             fragment.appendChild(noteElement);
         });
@@ -31,7 +34,7 @@ function updateEditWindow() {
         titleInput.value = currentNote.title;
         contentInput.value = currentNote.content;
         colorInput.value = currentNote.color;
-        colorInput.style.backgroundColor = currentNote.color;
+        colorInput.style.backgroundColor = `var(${currentNote.color})`;
     } else {
         titleInput.value = '';
         contentInput.value = '';
@@ -46,7 +49,6 @@ function closeWindows() {
 
 function showWindow(windowId) {
     currentWindow = windowId;
-    // console.log(currentWindow);
     updateNotesList();
     const titleElement = document.querySelector('#window-title h2');
     const backButton = document.getElementById('back-button');
@@ -97,20 +99,21 @@ function saveNote() {
     }
 }
 
-function themeHandler() {
-    isDark = localStorage.getItem('theme') === 'dark-mode';
+function updateThemeIcon() {
+    const themeButton = document.getElementById('theme-switch');
+    themeButton.innerHTML = '';
+    themeButton.appendChild(isDark ?
+        document.getElementById('moon-svg').content.cloneNode(true) :
+        document.getElementById('sun-svg').content.cloneNode(true));
+}
 
+function themeInit() {
+    isDark = localStorage.getItem('devlog-theme') === null ?
+        window.matchMedia('(prefers-color-scheme: dark)').matches :
+        localStorage.getItem('devlog-theme') === 'dark-mode';
     document.body.classList.toggle('dark-mode', isDark);
     document.body.classList.toggle('light-mode', !isDark);
-
-    // temp: Temporary change theme button
-    document.getElementById('change-theme').addEventListener('click', () => {
-        isDark = !document.body.classList.contains('dark-mode');
-        document.body.classList.toggle('dark-mode', isDark);
-        document.body.classList.toggle('light-mode', isDark);
-
-        localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark-mode' : 'light-mode');
-    });
+    updateThemeIcon();
 }
 
 function dragScrollEvent() {
@@ -165,7 +168,7 @@ function initEvents() {
         } /*else if (event.target.classList.contains('edit-button')) {
             updateEditWindow();
             showWindow('edit-window');
-        } */else if (event.target.id === 'save-edit-button') {
+        } */ else if (event.target.id === 'save-edit-button') {
             const newNote = new Note(
                 document.getElementById('content-input').value,
                 currentNote.id,
@@ -187,8 +190,15 @@ function initEvents() {
     });
     document.addEventListener('change', function (event) {
         if (event.target.id === 'color-input') {
-            event.target.style.backgroundColor = event.target.value;
+            event.target.style.backgroundColor = `var(${event.target.value})`;
         }
+    });
+    document.getElementById('theme-switch').addEventListener('click', () => {
+        isDark = !document.body.classList.contains('dark-mode');
+        document.body.classList.toggle('dark-mode', isDark);
+        document.body.classList.toggle('light-mode', !isDark);
+        localStorage.setItem('devlog-theme', document.body.classList.contains('dark-mode') ? 'dark-mode' : 'light-mode');
+        updateThemeIcon();
     });
     dragScrollEvent();
     disableScroll();
@@ -197,11 +207,11 @@ function initEvents() {
 function init() {
     initEvents();
     updateNotesList();
-    themeHandler();
+    themeInit()
 
     const colorOptions = document.getElementById('color-input').getElementsByTagName('option');
     for (let i = 0; i < colorOptions.length; i++) {
-        colorOptions[i].style.backgroundColor = colorOptions[i].value;
+        colorOptions[i].style.backgroundColor = `var(${colorOptions[i].value})`;
     }
 }
 

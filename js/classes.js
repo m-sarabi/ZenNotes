@@ -6,7 +6,7 @@ class Note {
         this.title = title ? title : this.generateTitle();
         this.color = color ? color : this.randomColor();
         this.order = 0;
-        this.element = new ExpandingNoteCard(this);
+        this.element = null;
     }
 
     generateTitle() {
@@ -48,7 +48,7 @@ class ExpandingNoteCard {
         this.index = index;
         const title = document.createElement('h3');
         title.textContent = this.note.decodeText(this.note.title);
-        this.card.style.backgroundColor = this.note.color;
+        this.card.style.backgroundColor = `var(${this.note.color})`;
         this.card.appendChild(title);
 
         this.card.appendChild(this.editButton);
@@ -79,7 +79,6 @@ class ExpandingNoteCard {
         });
 
         this.card.addEventListener('click', (event) => {
-            console.log(this.note.content);
             let endX = event.clientX;
             let endY = event.clientY;
 

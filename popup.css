@@ -9,7 +9,8 @@ html {
 }
 
 body.dark-mode {
-    --background-color: #000;
+    --background-color: #313131;
+    --background-color2: #1b1b1b;
     --card-background-color: #222;
     --paper-background-color: #222;
     --paper-lines-color: rgba(74, 94, 143, 0.53);
@@ -20,10 +21,17 @@ body.dark-mode {
     --button-hover-color: #fff;
     --button-hover-text-color: #000;
     --button-hover-border-color: #fff;
+    --card-red: #2f0000;
+    --card-yellow: #2f2f00;
+    --card-magenta: #2f002f;
+    --card-green: #002f00;
+    --card-cyan: #002f2f;
+    --card-blue: #00002f;
 }
 
 body.light-mode {
-    --background-color: #fff;
+    --background-color: #f9f9fb;
+    --background-color2: #fff;
     --card-background-color: #f0f5fa;
     --paper-background-color: #f0f0f0;
     --paper-lines-color: rgba(153, 180, 238, 0.53);
@@ -33,6 +41,12 @@ body.light-mode {
     --button-hover-color: #000;
     --button-hover-text-color: #fff;
     --button-hover-border-color: #000;
+    --card-red: #ffd0d0;
+    --card-yellow: #ffffd0;
+    --card-magenta: #ffd0ff;
+    --card-green: #d0ffd0;
+    --card-cyan: #d0ffff;
+    --card-blue: #d0d0ff;
 }
 
 body {
@@ -43,6 +57,7 @@ body {
     height: 600px;
     border: 1px solid #000;
     margin: 0;
+    color: var(--text-color);
     /*padding: 10px;*/
     overflow: hidden;
     position: relative;
@@ -57,6 +72,38 @@ main {
     overflow: hidden;
 }
 
+footer {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    position: absolute;
+    bottom: 0;
+    background-color: var(--background-color2);
+    z-index: 1000;
+    height: 40px;
+    width: 100%;
+    box-shadow: 0 -1px 10px #000
+}
+
+button {
+    cursor: pointer;
+}
+
+button:active {
+    transform: scale(0.95);
+}
+
+button:has(svg) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+button > svg {
+    width: 100%;
+    height: 100%;
+}
+
 button.primary {
     background-color: #007bff;
     font-size: 16px;
@@ -64,7 +111,6 @@ button.primary {
     border: none;
     padding: 10px;
     border-radius: 5px;
-    cursor: pointer;
 }
 
 button * {
@@ -74,6 +120,8 @@ button * {
 input[type="text"] {
     font-size: 18px;
     padding: 5px;
+    background-color: var(--background-color2);
+    color: var(--text-color);
 }
 
 .hidden {
@@ -104,8 +152,11 @@ input[type="text"] {
 }
 
 .window {
-    height: 100%;
+    height: calc(100% - 100px);
     overflow: auto;
+    display: none;
+    flex-direction: column;
+    gap: 5px;
 }
 
 .window:not(#notes-window) {
@@ -158,9 +209,10 @@ input[type="text"] {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    /*background-color: #a7d2ff;*/
+    background-color: var(--background-color2);
     padding: 10px;
     position: relative;
+    height: 60px;
 }
 
 #window-title::after {
@@ -195,13 +247,6 @@ input[type="text"] {
     white-space: nowrap;
 }
 
-.window {
-    display: none;
-    flex-direction: column;
-    height: 100%;
-    gap: 5px;
-}
-
 #preview {
     min-height: 100px;
     max-height: 100%;
@@ -212,7 +257,7 @@ input[type="text"] {
     font-family: 'Indie Flower', cursive;
     font-size: 18px;
     line-height: 26px;
-    background-color: #fafdff;
+    /*background-color: #fafdff;*/
     background-image: repeating-linear-gradient(white, white 24px, #9ae8 25px, #9ae8 26px);
     background-position-y: 5px;
     background-attachment: local;
@@ -231,19 +276,18 @@ input[type="text"] {
 
 #new-note-button {
     position: absolute;
-    bottom: 45px;
+    bottom: 15px;
     right: 15px;
     background: none;
     width: 40px;
     height: 40px;
     border-radius: 50%;
     border: none;
-    color: white;
+    color: var(--text-color);
     display: flex;
     justify-content: center;
     align-items: center;
     font-size: 32px;
-    cursor: pointer;
     z-index: 3;
     opacity: 0.5;
     transform: scale(0.8);
@@ -255,7 +299,7 @@ input[type="text"] {
     transform: scale(1);
 }
 
-#new-note-button img {
+#new-note-button svg {
     width: 100%;
     height: 100%;
 }
@@ -270,11 +314,11 @@ input[type="text"] {
     border: none;
     border-radius: 50%;
     background: none;
-    width: 30px;
-    height: 30px;
+    width: 25px;
+    height: 25px;
     padding: 2px;
     margin-bottom: 10px;
-    color: white;
+    color: var(--text-color);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -285,7 +329,27 @@ input[type="text"] {
     transition: opacity 0.2s ease;
 }
 
-.edit-button > img {
+.edit-button > svg {
+    width: 100%;
+    height: 100%;
+}
+
+#theme-switch {
+    display: flex;
+    background: var(--background-color2);
+    color: var(--text-color);
+    border: none;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    padding: 6px;
+}
+
+#theme-switch:hover {
+    background: var(--background-color);
+}
+
+#theme-switch svg {
     width: 100%;
     height: 100%;
 }
@@ -298,23 +362,6 @@ input[type="text"] {
     min-height: 100%;
 }
 
-.note-item {
-    padding: 10px;
-    border: 1px solid #ccc;
-    margin-bottom: 5px;
-    border-radius: 5px;
-    cursor: pointer;
-    user-select: none;
-    background-color: lightblue;
-    overflow: hidden;
-    transition: filter 0.2s ease;
-    font-size: 18px;
-}
-
-.note-item:hover {
-    filter: brightness(96%);
-}
-
 textarea {
     width: 100%;
     height: 50%;
@@ -323,6 +370,8 @@ textarea {
     padding: 10px;
     font-size: 14px;
     resize: vertical;
+    background-color: var(--background-color2);
+    color: var(--text-color);
 }
 
 #delete-button,
@@ -331,7 +380,6 @@ textarea {
     background-color: #007bff;
     color: white;
     border: none;
-    cursor: pointer;
     font-size: 14px;
     margin-bottom: 5px;
 }
@@ -341,29 +389,20 @@ textarea {
 }
 
 #info-button {
-    position: absolute;
-    bottom: 4px;
-    left: 4px;
-    background: none;
+    background: var(--background-color2);
     border: none;
-    cursor: pointer;
     font-size: 16px;
-    box-shadow: 0 0 2px #0008 inset;
-    border-radius: 5px;
+    border-radius: 50%;
     padding: 0 4px;
+    color: var(--text-color);
     transition: 0.2s ease;
+    width: 35px;
+    height: 35px;
     font-family: "Lucida Handwriting", cursive, sans-serif;
 }
 
 #info-button:hover {
-    box-shadow: 0 0 4px #0008 inset;
-}
-
-#info-button > span {
-    font-size: 18px;
-    /* a script font */
-    font-family: "Script MT Bold", "Segoe Script", "Matura MT Script Capitals", serif;
-    font-weight: bold;
+    background: var(--background-color);
 }
 
 #save-button:hover,
@@ -383,22 +422,24 @@ select {
     font-size: 18px;
     width: 100%;
     padding: 5px;
+    color: var(--text-color);
 }
 
 option {
     font-size: 20px;
+    color: var(--text-color);
 }
 
 #back-button {
     display: none;
     float: right;
-    cursor: pointer;
     background: none;
     border: none;
     width: 36px;
     height: 36px;
     font-size: 24px;
     letter-spacing: -18px;
+    color: var(--text-color);
     transition: 0.2s ease;
 }
 
@@ -406,10 +447,9 @@ option {
     opacity: 0.5;
 }
 
-#back-button > img {
+#back-button > svg {
     width: 100%;
     height: 100%;
-    filter: drop-shadow(1px 1px 0 #0002) drop-shadow(-1px 1px 0 #0002) drop-shadow(1px -1px 0 #0002) drop-shadow(-1px -1px 0 #0002) drop-shadow(1px 0 0 #0002) drop-shadow(-1px 0 0 #0002) drop-shadow(0 1px 0 #0002) drop-shadow(0 -1px 0 #0002);
 }
 
 #status {
@@ -424,9 +464,8 @@ option {
 
 #notes-wrapper {
     width: 100%;
-    height: calc(100% - 40px);
+    height: 100%;
     padding: 10px;
-    border-bottom: 1px solid #ccc;
     position: relative;
     overflow-y: scroll;
     scrollbar-width: thin;
@@ -440,15 +479,16 @@ option {
     transform: translateX(-50%);
     padding: 5px 10px;
     overflow: hidden;
-    box-shadow: none;
-    border: 1px solid #0003;
+    /*box-shadow: 0 1px 4px #000a;*/
+    filter: drop-shadow(0 2px 2px #0009);
+    /*border: 1px solid #0003;*/
     border-radius: 10px;
     cursor: pointer;
     user-select: none;
     scroll-behavior: smooth;
     scrollbar-width: none;
-    will-change: top, height, width, box-shadow;
-    transition: top 0.5s ease, height 0.5s ease, width 0.5s cubic-bezier(0.5, 0, 0.5, 1), box-shadow 1s ease;
+    will-change: top, height, width, filter;
+    transition: top 0.5s ease, height 0.5s ease, width 0.5s cubic-bezier(0.5, 0, 0.5, 1), filter 0.5s ease;
 }
 
 .card h3 {
@@ -492,10 +532,10 @@ option {
 
 .card.expanded {
     width: 90%;
-    box-shadow: 0 2px 8px #000a;
+    filter: drop-shadow(0 2px 5px #000b);
     cursor: default;
     border: 0 solid #0005;
-    transition: top 0.5s ease, height 0.75s ease, width 0.5s cubic-bezier(0, 1, 0.5, 1), box-shadow 1s ease;
+    transition: top 0.5s ease, height 0.75s ease, width 0.5s cubic-bezier(0, 1, 0.5, 1), filter 0.5s ease;
 }
 
 .card.full {

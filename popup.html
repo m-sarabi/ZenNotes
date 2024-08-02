@@ -12,18 +12,46 @@
 
 <template id="edit-btn-template">
     <button class="edit-button" type="button">
-        <img src="./assets/edit.svg" alt="Edit">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor"
+             stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit">
+            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+        </svg>
     </button>
+</template>
+<template id="sun-svg">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+         stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon">
+        <circle cx="12" cy="12" r="5"/>
+        <line x1="12" y1="1" x2="12" y2="3"/>
+        <line x1="12" y1="21" x2="12" y2="23"/>
+        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+        <line x1="1" y1="12" x2="3" y2="12"/>
+        <line x1="21" y1="12" x2="23" y2="12"/>
+        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+    </svg>
+</template>
+<template id="moon-svg">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+         stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+    </svg>
 </template>
 
 <div id="test-float" class="floating-window">test</div>
 <main>
     <div id="window-title">
         <h2>Quick Note Taker</h2>
-        <button id="change-theme" type="button">⭐</button>
+        <button id="theme-switch" type="button"></button>
         <button id="back-button" type="button">
-            <img src="https://cdn.icon-icons.com/icons2/1946/PNG/512/1904671-arrow-arrow-right-change-direction-next-page-right_122521.png"
-                 alt="Back">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor"
+                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right">
+                <polyline points="9 18 15 12 9 6"/>
+            </svg>
         </button>
     </div>
     <div id="notes-window" class="window">
@@ -31,9 +59,14 @@
             <div id="notes-list"></div>
         </div>
         <button id="new-note-button" type="button">
-            <img src="./assets/plus-circle.svg" alt="Add new note">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor"
+                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus-circle">
+                <circle cx="12" cy="12" r="10"/>
+                <line x1="12" y1="8" x2="12" y2="16"/>
+                <line x1="8" y1="12" x2="16" y2="12"/>
+            </svg>
         </button>
-        <button id="info-button" type="button"><span>i </span>About</button>
     </div>
     <div id="new-note-window" class="window">
         <label for="note"></label><textarea id="note" placeholder="Write your note here..."></textarea>
@@ -44,12 +77,12 @@
         <div class="flex-row">
             <label for="color-input">Color:</label>
             <select id="color-input">
-                <option value="#D0D0FF">Bueblerry</option>
-                <option value="#FFD0FF">Mals Magenta</option>
-                <option value="#FFD0D0">Pastel Salmon</option>
-                <option value="#D0FFD0">WWOLG</option>
-                <option value="#D0FFFF">Serendipity Sky</option>
-                <option value="#FFFFD0">Light Up Beige</option>
+                <option value="--card-blue">Blue</option>
+                <option value="--card-magenta">Magenta</option>
+                <option value="--card-red">Red</option>
+                <option value="--card-green">Green</option>
+                <option value="--card-cyan">Cyan</option>
+                <option value="--card-yellow">Yellow</option>
             </select>
         </div>
 
@@ -69,6 +102,17 @@
             <p id="version">Version: 1.0</p>
         </div>
     </div>
+    <footer>
+        <button id="info-button" type="button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                 class="feather feather-help-circle">
+                <circle cx="12" cy="12" r="10"></circle>
+                <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+                <line x1="12" y1="17" x2="12.01" y2="17"/>
+            </svg>
+        </button>
+    </footer>
     <div id="status"></div>
 </main>
 <script src="js/script.js"></script>

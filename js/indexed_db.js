@@ -1,12 +1,11 @@
 const colors = [
-    '#FFD0D0',
-    '#FFFFD0',
-    '#FFD0FF',
-    '#D0FFD0',
-    '#D0FFFF',
-    '#D0D0FF',
+    '--card-red',
+    '--card-yellow',
+    '--card-magenta',
+    '--card-green',
+    '--card-cyan',
+    '--card-blue',
 ];
-const MAX_TITLE_LENGTH = 22;
 
 function openDB() {
     return new Promise((resolve, reject) => {
@@ -32,7 +31,7 @@ function openDB() {
         };
 
         request.onerror = () => {
-            console.error("Error opening IndexedDB:", request.error);
+            console.error('Error opening IndexedDB:', request.error);
             reject(request.error);
         };
 
@@ -53,7 +52,7 @@ function addNote(note) {
                 noteId: note.id,
                 title: note.title,
                 color: note.color,
-                order: note.order
+                order: note.order,
             });
 
             request.onsuccess = () => {
@@ -61,7 +60,7 @@ function addNote(note) {
             };
 
             request.onerror = () => {
-                console.error("Error adding note:", request.error);
+                console.error('Error adding note:', request.error);
                 reject(request.error);
             };
         });
@@ -86,7 +85,7 @@ function getNotes() {
             };
 
             cursor.onerror = () => {
-                console.error("Error getting notes:", cursor.error);
+                console.error('Error getting notes:', cursor.error);
                 reject(cursor.error);
             };
         });
@@ -104,7 +103,7 @@ function deleteNoteById(noteId) {
             };
 
             request.onerror = () => {
-                console.error("Error deleting note:", request.error);
+                console.error('Error deleting note:', request.error);
                 reject(request.error);
             };
         });
@@ -122,7 +121,7 @@ function getNoteById(noteId) {
             };
 
             request.onerror = () => {
-                console.error("Error getting note:", request.error);
+                console.error('Error getting note:', request.error);
                 reject(request.error);
             };
         });
@@ -138,7 +137,7 @@ function updateNote(note) {
                 noteId: note.id,
                 title: note.title,
                 color: note.color,
-                order: note.order
+                order: note.order,
             });
 
             request.onsuccess = () => {
@@ -146,7 +145,7 @@ function updateNote(note) {
             };
 
             request.onerror = () => {
-                console.error("Error updating note:", request.error);
+                console.error('Error updating note:', request.error);
                 reject(request.error);
             };
         });
