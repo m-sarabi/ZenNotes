@@ -30,12 +30,12 @@ body.dark-mode {
     --button-hover-color: #fff;
     --button-hover-text-color: #000;
     --button-hover-border-color: #fff;
-    --card-red: #2f0000;
-    --card-yellow: #2f2f00;
-    --card-magenta: #2f002f;
-    --card-green: #002f00;
-    --card-cyan: #002f2f;
-    --card-blue: #00002f;
+    --card-red: #3f0000;
+    --card-yellow: #3f3f00;
+    --card-magenta: #3f003f;
+    --card-green: #003f00;
+    --card-cyan: #003f3f;
+    --card-blue: #00003f;
 }
 
 body.light-mode {
@@ -50,12 +50,12 @@ body.light-mode {
     --button-hover-color: #000;
     --button-hover-text-color: #fff;
     --button-hover-border-color: #000;
-    --card-red: #ffd0d0;
-    --card-yellow: #ffffd0;
-    --card-magenta: #ffd0ff;
-    --card-green: #d0ffd0;
-    --card-cyan: #d0ffff;
-    --card-blue: #d0d0ff;
+    --card-red: #ffc0c0;
+    --card-yellow: #ffffc0;
+    --card-magenta: #ffc0ff;
+    --card-green: #c0ffc0;
+    --card-cyan: #c0ffff;
+    --card-blue: #c0c0ff;
 }
 
 /* General */
