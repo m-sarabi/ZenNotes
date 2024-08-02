@@ -10,16 +10,26 @@ function createNoteElement(note, index) {
 
 function updateNotesList() {
     const notesList = document.getElementById('notes-list');
+    const searchTerm = document.getElementById('search')?.value.trim().toLowerCase();
+    currentNote = null;
     getNotes().then((notes) => {
         noteCounter = notes.length;
         notesList.innerHTML = '';
         const fragment = document.createDocumentFragment();
-        notes.forEach((note, index) => {
+        let index = 0;
+        notes.forEach((note) => {
             if (!note.element) {
                 note.element = new ExpandingNoteCard(note);
             }
+            note.element.card.classList.toggle('expanded', false);
+            if (searchTerm &&
+                !note.title.toLowerCase().includes(searchTerm.toLowerCase()) &&
+                !note.content.toLowerCase().includes(searchTerm.toLowerCase())) {
+                return;
+            }
             const noteElement = createNoteElement(note, index);
             fragment.appendChild(noteElement);
+            index++;
         });
         notesList.appendChild(fragment);
         notesList.style.height = notes.length * 50 + 10 + 'px';
@@ -49,30 +59,34 @@ function closeWindows() {
 
 function showWindow(windowId) {
     currentWindow = windowId;
-    updateNotesList();
     const titleElement = document.querySelector('header h2');
     const backButton = document.getElementById('back-button');
+    const searchInput = document.getElementById('search-wrapper');
     closeWindows();
     document.getElementById(windowId).style.display = 'flex';
     switch (windowId) {
         case 'new-note-window':
             currentNote = null;
             titleElement.textContent = 'New Note';
-            backButton.style.display = 'block';
             break;
         case 'notes-window':
+            updateNotesList();
             currentNote = null;
-            titleElement.textContent = 'Notes';
-            backButton.style.display = 'None';
+            titleElement.textContent = 'Quick Notes';
             break;
         case 'edit-window':
             titleElement.textContent = 'Edit Note';
-            backButton.style.display = 'block';
             break;
         case 'info-window':
             titleElement.textContent = 'About';
-            backButton.style.display = 'block';
             break;
+    }
+    if (windowId === 'notes-window') {
+        backButton.style.display = 'none';
+        searchInput.style.display = 'block';
+    } else {
+        backButton.style.display = 'block';
+        searchInput.style.display = 'none';
     }
 }
 
@@ -156,6 +170,13 @@ function disableScroll() {
     });
 }
 
+function searchEvent() {
+    const searchInput = document.getElementById('search');
+    searchInput.addEventListener('input', function () {
+        updateNotesList();
+    });
+}
+
 function initEvents() {
     document.addEventListener('click', function (event) {
         if (event.target.id === 'new-note-button') {
@@ -202,6 +223,7 @@ function initEvents() {
     });
     dragScrollEvent();
     disableScroll();
+    searchEvent();
 }
 
 function init() {
