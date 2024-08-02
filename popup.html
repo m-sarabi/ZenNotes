@@ -11,7 +11,7 @@
 <body class="light-mode">
 
 <template id="edit-btn-template">
-    <button class="edit-button" type="button">
+    <button class="edit-button svg-button small fading" type="button">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
              stroke="currentColor"
              stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit">
@@ -40,25 +40,23 @@
         <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
     </svg>
 </template>
-
-<div id="test-float" class="floating-window">test</div>
 <main>
-    <div id="window-title">
+    <header>
         <h2>Quick Note Taker</h2>
-        <button id="theme-switch" type="button"></button>
-        <button id="back-button" type="button">
+        <button id="theme-switch" type="button" class="svg-button medium"></button>
+        <button id="back-button" type="button" class="svg-button medium">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                  stroke="currentColor"
                  stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right">
                 <polyline points="9 18 15 12 9 6"/>
             </svg>
         </button>
-    </div>
+    </header>
     <div id="notes-window" class="window">
         <div id="notes-wrapper">
             <div id="notes-list"></div>
         </div>
-        <button id="new-note-button" type="button">
+        <button id="new-note-button" type="button" class="svg-button big faded">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                  stroke="currentColor"
                  stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus-circle">
@@ -69,7 +67,7 @@
         </button>
     </div>
     <div id="new-note-window" class="window">
-        <label for="note"></label><textarea id="note" placeholder="Write your note here..."></textarea>
+        <label for="note"></label><textarea id="note" placeholder="#Note Title&#10;Write your note here..."></textarea>
         <button id="save-button" type="button" class="primary">Save Note</button>
     </div>
     <div id="edit-window" class="window">
@@ -88,22 +86,22 @@
 
         <label for="content-input"></label><textarea id="content-input"
                                                      placeholder="Write your note here..."></textarea>
-        <button id="save-edit-button" type="button">Save Note</button>
-        <button id="delete-button" type="button">Delete Note</button>
+        <button id="save-edit-button" type="button" class="primary">Save Note</button>
+        <button id="delete-button" type="button" class="primary danger">Delete Note</button>
     </div>
     <div id="info-window" class="window">
-        <div class="info-row">
+        <div class="flex-row">
             <p id="created-by">Created by <a href="https://github.com/m-sarabi" target="_blank">/m-sarabi</a></p>
         </div>
-        <div id="my-website" class="info-row">
+        <div id="my-website" class="flex-row">
             <p>Visit <a href="https://m-sarabi.ir/" target="_blank">m-sarabi.ir</a></p>
         </div>
-        <div class="info-row">
+        <div class="flex-row">
             <p id="version">Version: 1.0</p>
         </div>
     </div>
     <footer>
-        <button id="info-button" type="button">
+        <button id="info-button" type="button" class="svg-button medium">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                  class="feather feather-help-circle">

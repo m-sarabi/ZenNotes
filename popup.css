@@ -1,3 +1,10 @@
+/*
+Quick Note Taker
+By: https://github.com/m-sarabi
+*/
+
+/* Global */
+
 * {
     margin: 0;
     padding: 0;
@@ -7,6 +14,8 @@
 html {
     overflow: auto;
 }
+
+/* Theme Colors */
 
 body.dark-mode {
     --background-color: #313131;
@@ -49,6 +58,8 @@ body.light-mode {
     --card-blue: #d0d0ff;
 }
 
+/* General */
+
 body {
     background-color: var(--background-color);
     font-family: Arial, sans-serif;
@@ -58,10 +69,8 @@ body {
     border: 1px solid #000;
     margin: 0;
     color: var(--text-color);
-    /*padding: 10px;*/
     overflow: hidden;
     position: relative;
-    /*color: var(--text-color);*/
 }
 
 main {
@@ -70,6 +79,27 @@ main {
     height: 100%;
     position: relative;
     overflow: hidden;
+}
+
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: var(--background-color2);
+    padding: 10px;
+    position: relative;
+    height: 60px;
+    box-shadow: 0 1px 10px #000;
+    z-index: 1000;
+}
+
+header > h2 {
+    font-size: 22px;
+    font-weight: bold;
+    padding: 5px;
+    width: 85%;
+    overflow: hidden;
+    white-space: nowrap;
 }
 
 footer {
@@ -82,8 +112,10 @@ footer {
     z-index: 1000;
     height: 40px;
     width: 100%;
-    box-shadow: 0 -1px 10px #000
+    box-shadow: 0 -1px 10px #000;
 }
+
+/* Buttons */
 
 button {
     cursor: pointer;
@@ -93,15 +125,65 @@ button:active {
     transform: scale(0.95);
 }
 
-button:has(svg) {
+button * {
+    pointer-events: none;
+}
+
+.svg-button {
     display: flex;
     align-items: center;
     justify-content: center;
+    border: none;
+    border-radius: 50%;
+    color: var(--text-color);
 }
 
-button > svg {
+.svg-button svg {
     width: 100%;
     height: 100%;
+}
+
+.svg-button.small {
+    width: 25px;
+    height: 25px;
+}
+
+.svg-button.medium {
+    width: 35px;
+    height: 35px;
+    padding: 5px;
+    background: var(--background-color2);
+}
+
+.svg-button.medium:hover {
+    background: var(--background-color);
+}
+
+.svg-button.large {
+    width: 40px;
+    height: 40px;
+}
+
+button.faded {
+    background: none;
+    opacity: 0.5;
+    transform: scale(0.8);
+    transition: 0.2s ease;
+}
+
+button.faded:hover {
+    opacity: 1;
+    transform: scale(1);
+}
+
+button.fading {
+    background: none;
+    opacity: 1;
+    transition: 0.2s ease;
+}
+
+button.fading:hover {
+    opacity: 0.5;
 }
 
 button.primary {
@@ -111,255 +193,42 @@ button.primary {
     border: none;
     padding: 10px;
     border-radius: 5px;
+    margin-bottom: 5px;
 }
 
-button * {
-    pointer-events: none;
+button.primary:hover {
+    background-color: #0056b3;
 }
 
-input[type="text"] {
-    font-size: 18px;
-    padding: 5px;
-    background-color: var(--background-color2);
-    color: var(--text-color);
+button.danger {
+    background-color: #dc3545;
 }
 
-.hidden {
-    display: none;
-}
-
-.main-window {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    gap: 5px;
-}
-
-.floating-window {
-    position: absolute;
-    width: 90%;
-    height: 80%;
-    left: 50%;
-    transform: translateX(-50%);
-    bottom: -100%;
-    border: 1px solid var(--border-color);
-    background-color: var(--card-background-color);
-    border-radius: 5px;
-    padding: 10px;
-    box-shadow: 0 2px 8px #000a;
-    transition: all 0.5s ease-in-out;
-    z-index: 1;
-}
-
-.window {
-    height: calc(100% - 100px);
-    overflow: auto;
-    display: none;
-    flex-direction: column;
-    gap: 5px;
-}
-
-.window:not(#notes-window) {
-    padding: 20px;
-}
-
-.flex-row {
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    /*justify-content: space-between;*/
-    align-items: center;
-    gap: 10px;
-}
-
-.info-row {
-    width: 100%;
-    text-align: center;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-}
-
-.info-row p {
-    width: 70%;
-    font-size: 18px;
-    font-weight: bold;
-    padding: 5px;
-    border-bottom: 1px solid var(--border-color);
-}
-
-.info-row a {
-    background-color: var(--text-color);
-    color: var(--background-color);
-    text-decoration: none;
-    padding: 3px 7px;
-    border-radius: 5px;
-    box-shadow: 0 0 4px #0007;
-    transition: all 0.2s ease-in-out;
-}
-
-.info-row a:hover {
-    background-color: var(--background-color);
-    color: var(--text-color);
-    /*box-shadow: 0 0 4px #fff inset;*/
-}
-
-#window-title {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background-color: var(--background-color2);
-    padding: 10px;
-    position: relative;
-    height: 60px;
-}
-
-#window-title::after {
-    content: '';
-    width: 90%;
-    height: 1px;
-    background-color: var(--border-color);
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-}
-
-#info-window {
-    display: none;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    width: 100%;
-    padding: 10px;
-    gap: 10px;
-    background-color: var(--card-background-color);
-}
-
-#window-title > h2 {
-    font-size: 22px;
-    font-weight: bold;
-    padding: 5px;
-    width: 85%;
-    overflow: hidden;
-    white-space: nowrap;
-}
-
-#preview {
-    min-height: 100px;
-    max-height: 100%;
-    padding: 10px 15px;
-    text-align: justify;
-    overflow-y: auto;
-    margin-bottom: 10px;
-    font-family: 'Indie Flower', cursive;
-    font-size: 18px;
-    line-height: 26px;
-    /*background-color: #fafdff;*/
-    background-image: repeating-linear-gradient(white, white 24px, #9ae8 25px, #9ae8 26px);
-    background-position-y: 5px;
-    background-attachment: local;
-}
-
-#notes-window {
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    justify-content: space-between;
-}
-
-#preview-window {
-    position: relative;
+button.danger:hover {
+    background-color: #a71d2a;
 }
 
 #new-note-button {
     position: absolute;
     bottom: 15px;
     right: 15px;
-    background: none;
     width: 40px;
     height: 40px;
-    border-radius: 50%;
-    border: none;
-    color: var(--text-color);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 32px;
     z-index: 3;
-    opacity: 0.5;
-    transform: scale(0.8);
-    transition: 0.2s ease;
-}
-
-#new-note-button:hover {
-    opacity: 1;
-    transform: scale(1);
-}
-
-#new-note-button svg {
-    width: 100%;
-    height: 100%;
-}
-
-#new-note-button.hide {
-    opacity: 0;
-    pointer-events: none;
 }
 
 .edit-button {
     position: relative;
-    border: none;
-    border-radius: 50%;
-    background: none;
-    width: 25px;
-    height: 25px;
-    padding: 2px;
     margin-bottom: 10px;
+}
+
+/* Inputs */
+
+input[type="text"] {
+    font-size: 18px;
+    padding: 5px;
+    background-color: var(--background-color2);
     color: var(--text-color);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 32px;
-    cursor: pointer;
-    z-index: 3;
-    opacity: 1;
-    transition: opacity 0.2s ease;
-}
-
-.edit-button > svg {
-    width: 100%;
-    height: 100%;
-}
-
-#theme-switch {
-    display: flex;
-    background: var(--background-color2);
-    color: var(--text-color);
-    border: none;
-    border-radius: 50%;
-    width: 35px;
-    height: 35px;
-    padding: 6px;
-}
-
-#theme-switch:hover {
-    background: var(--background-color);
-}
-
-#theme-switch svg {
-    width: 100%;
-    height: 100%;
-}
-
-#notes-list {
-    /*background-color: #f0f0f0;*/
-    padding: 10px;
-    position: relative;
-    overflow: auto;
-    min-height: 100%;
 }
 
 textarea {
@@ -374,50 +243,6 @@ textarea {
     color: var(--text-color);
 }
 
-#delete-button,
-#save-edit-button {
-    padding: 10px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    font-size: 14px;
-    margin-bottom: 5px;
-}
-
-#delete-button {
-    background-color: #dc3545;
-}
-
-#info-button {
-    background: var(--background-color2);
-    border: none;
-    font-size: 16px;
-    border-radius: 50%;
-    padding: 0 4px;
-    color: var(--text-color);
-    transition: 0.2s ease;
-    width: 35px;
-    height: 35px;
-    font-family: "Lucida Handwriting", cursive, sans-serif;
-}
-
-#info-button:hover {
-    background: var(--background-color);
-}
-
-#save-button:hover,
-#save-edit-button:hover {
-    background-color: #0056b3;
-}
-
-#delete-button:hover {
-    background-color: #a71d2a;
-}
-
-.edit-button:hover {
-    opacity: 0.5;
-}
-
 select {
     font-size: 18px;
     width: 100%;
@@ -430,36 +255,44 @@ option {
     color: var(--text-color);
 }
 
-#back-button {
+/* Hidden Elements */
+
+.invisible {
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.hidden {
     display: none;
-    float: right;
-    background: none;
-    border: none;
-    width: 36px;
-    height: 36px;
-    font-size: 24px;
-    letter-spacing: -18px;
-    color: var(--text-color);
-    transition: 0.2s ease;
 }
 
-#back-button:hover {
-    opacity: 0.5;
-}
+/* Windows */
 
-#back-button > svg {
+.window {
+    height: calc(100% - 100px);
     width: 100%;
-    height: 100%;
+    overflow: auto;
+    display: none;
+    flex-direction: column;
+    gap: 5px;
 }
 
-#status {
-    position: absolute;
-    bottom: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-    margin-top: 10px;
-    font-size: 12px;
-    color: green;
+.window:not(#notes-window) {
+    padding: 20px;
+}
+
+#info-window {
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background-color: var(--background-color);
+}
+
+#notes-window {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    justify-content: space-between;
 }
 
 #notes-wrapper {
@@ -470,6 +303,50 @@ option {
     overflow-y: scroll;
     scrollbar-width: thin;
 }
+
+#notes-list {
+    padding: 10px;
+    position: relative;
+    overflow: auto;
+    min-height: 100%;
+}
+
+/* Flex Row */
+
+.flex-row {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    gap: 10px;
+}
+
+.flex-row p {
+    width: 70%;
+    font-size: 18px;
+    font-weight: bold;
+    padding: 5px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.flex-row a {
+    background-color: var(--text-color);
+    color: var(--background-color2);
+    text-decoration: none;
+    padding: 3px 7px;
+    border-radius: 5px;
+    box-shadow: 0 0 4px #0007;
+    transition: all 0.2s ease-in-out;
+}
+
+.flex-row a:hover {
+    background-color: var(--background-color2);
+    color: var(--text-color);
+}
+
+/* Card */
 
 .card {
     position: absolute;
@@ -541,4 +418,14 @@ option {
 .card.full {
     scrollbar-width: thin;
     overflow: auto;
+}
+
+#status {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-top: 10px;
+    font-size: 12px;
+    color: green;
 }

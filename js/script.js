@@ -50,7 +50,7 @@ function closeWindows() {
 function showWindow(windowId) {
     currentWindow = windowId;
     updateNotesList();
-    const titleElement = document.querySelector('#window-title h2');
+    const titleElement = document.querySelector('header h2');
     const backButton = document.getElementById('back-button');
     closeWindows();
     document.getElementById(windowId).style.display = 'flex';
@@ -205,9 +205,10 @@ function initEvents() {
 }
 
 function init() {
+    showWindow('notes-window');
     initEvents();
     updateNotesList();
-    themeInit()
+    themeInit();
 
     const colorOptions = document.getElementById('color-input').getElementsByTagName('option');
     for (let i = 0; i < colorOptions.length; i++) {
