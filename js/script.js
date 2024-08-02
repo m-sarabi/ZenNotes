@@ -2,7 +2,6 @@
 let currentNote = null;
 let currentWindow = null;
 let isDark;
-let noteCounter = 0;
 
 function createNoteElement(note, index) {
     return note.element.render(index);
@@ -13,7 +12,6 @@ function updateNotesList() {
     const searchTerm = document.getElementById('search')?.value.trim().toLowerCase();
     currentNote = null;
     getNotes().then((notes) => {
-        noteCounter = notes.length;
         notesList.innerHTML = '';
         const fragment = document.createDocumentFragment();
         let index = 0;
@@ -32,7 +30,7 @@ function updateNotesList() {
             index++;
         });
         notesList.appendChild(fragment);
-        notesList.style.height = notes.length * 50 + 10 + 'px';
+        notesList.style.height = index * 50 + 10 + 'px';
     });
 }
 
@@ -99,6 +97,8 @@ function saveNote() {
             addNote(note).then(() => {
                 showWindow('notes-window');
                 updateNotesList();
+                const status = new FlyingStatus('Note saved', 'green');
+                status.render();
 
                 // Clear the input field
                 noteElement.value = '';
@@ -127,6 +127,7 @@ function themeInit() {
         localStorage.getItem('devlog-theme') === 'dark-mode';
     document.body.classList.toggle('dark-mode', isDark);
     document.body.classList.toggle('light-mode', !isDark);
+    document.querySelector(':root').style.setProperty('color-scheme', isDark ? 'dark' : 'light');
     updateThemeIcon();
 }
 
@@ -204,6 +205,8 @@ function initEvents() {
             deleteNoteById(currentNote.id).then(() => {
                 updateNotesList();
                 showWindow('notes-window');
+                const status = new FlyingStatus('Note deleted', 'red');
+                status.render();
             });
         } else if (event.target.id === 'info-button') {
             showWindow('info-window');
@@ -219,6 +222,7 @@ function initEvents() {
         document.body.classList.toggle('dark-mode', isDark);
         document.body.classList.toggle('light-mode', !isDark);
         localStorage.setItem('devlog-theme', document.body.classList.contains('dark-mode') ? 'dark-mode' : 'light-mode');
+        document.querySelector(':root').style.setProperty('color-scheme', isDark ? 'dark' : 'light');
         updateThemeIcon();
     });
     dragScrollEvent();

@@ -130,3 +130,22 @@ class ExpandingNoteCard {
         }
     }
 }
+
+class FlyingStatus {
+    constructor(text, type) {
+        this.text = text;
+        this.element = document.createElement('div');
+        this.element.classList.add('flying-status', type);
+        this.element.textContent = text;
+    }
+
+    render() {
+        document.body.appendChild(this.element);
+        setTimeout(() => {
+            this.element.classList.add('fly');
+            setTimeout(() => {
+                this.element.remove();
+            }, 2000);
+        }, 50);
+    }
+}
