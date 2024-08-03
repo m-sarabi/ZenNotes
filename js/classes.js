@@ -55,7 +55,7 @@ class ExpandingNoteCard {
         this.card.appendChild(this.editButton);
         this.note.content.split('\n').forEach((line) => {
             const content = document.createElement('p');
-            content.textContent = this.note.decodeText(line);
+            content.textContent = this.note.decodeText(line === '' ? '&nbsp;' : line);
             setDirection(content, line);
             this.card.appendChild(content);
         });
