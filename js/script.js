@@ -186,6 +186,9 @@ function createColorOptions() {
         const colorElement = document.createElement('div');
         colorElement.classList.add('color-option', 'input-option');
         colorElement.setAttribute('data-color', color);
+        colorElement.setAttribute('title', ((text) => {
+            return text[0].toUpperCase() + text.slice(1);
+        })(color.replace('--card-', '')));
         colorElement.style.backgroundColor = `var(${color})`;
         colorBox.appendChild(colorElement);
         colorElement.addEventListener('click', function () {
@@ -209,6 +212,7 @@ function createPriorityOptions() {
         }
         priorityElement.classList.add('priority-option', 'input-option');
         priorityElement.setAttribute('data-priority', priority);
+        priorityElement.setAttribute('title', priority[0].toUpperCase() + priority.slice(1));
         priorityBox.appendChild(priorityElement);
         priorityElement.addEventListener('click', function () {
             document.getElementById('priority-input').value = priority;
