@@ -424,6 +424,21 @@ select#priority-input option[value="low"] {
     min-height: 100%;
 }
 
+.category-header {
+    position: absolute;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 50%;
+    gap: 10px;
+    user-select: none;
+}
+
+.category-header hr {
+    flex-grow: 1;
+    height: 1px;
+}
+
 /* Flex Row */
 
 .flex-row {

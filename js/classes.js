@@ -44,6 +44,7 @@ class ExpandingNoteCard {
         this.card.className = 'card';
         this.card.setAttribute('data-id', note.id);
         this.editButton = document.getElementById('edit-btn-template').content.cloneNode(true);
+        this.pos = null;
     }
 
     render(index) {
@@ -69,7 +70,7 @@ class ExpandingNoteCard {
             setDirection(content, line);
             this.card.appendChild(content);
         });
-        this.card.style.top = `${index * 50 + 10}px`;
+        // this.card.style.top = `${index * 50 + 10}px`;
         this.card.style.zIndex = '1';
 
         this.addPriority();
@@ -134,7 +135,8 @@ class ExpandingNoteCard {
         } else {
             this.card.classList.remove('full');
             // document.getElementById('edit-button').classList.toggle('show', false);
-            this.card.style.top = `${this.index * 50 + 10}px`;
+            // this.card.style.top = `${this.index * 50 + 10}px`;
+            this.card.style.top = `${this.pos}px`;
             this.card.style.height = '40px';
             this.card.scrollTo(0, 0);
             document.getElementById('new-note-button').classList.remove('invisible');

@@ -11,10 +11,12 @@ function createNoteElement(note, index) {
 function updateNotesList() {
     const notesList = document.getElementById('notes-list');
     const searchTerm = document.getElementById('search')?.value.trim().toLowerCase();
+    const localCategories = {};
+    categories.splice(0, categories.length);
     currentNote = null;
     getNotes().then((notes) => {
         notesList.innerHTML = '';
-        const fragment = document.createDocumentFragment();
+        // const fragment = document.createDocumentFragment();
         let index = 0;
         notes.forEach((note) => {
             if (note.category && !categories.includes(note.category)) {
@@ -29,12 +31,36 @@ function updateNotesList() {
                 !note.content.toLowerCase().includes(searchTerm.toLowerCase())) {
                 return;
             }
-            const noteElement = createNoteElement(note, index);
-            fragment.appendChild(noteElement);
+            if (!localCategories[note.category]) {
+                localCategories[note.category] = [];
+            }
+            // const noteElement = createNoteElement(note, index);
+            // fragment.appendChild(noteElement);
+            localCategories[note.category].push(note);
             index++;
         });
+        let top = 10;
+        Object.keys(localCategories).sort().forEach((category) => {
+            if (category) top += 30;
+
+            const categoryElement = document.createElement('div');
+            categoryElement.className = 'category-header';
+            categoryElement.innerHTML = category ? category + '<hr>' : '';
+            notesList.appendChild(categoryElement);
+            localCategories[category].forEach((note, idx) => {
+                const noteElement = createNoteElement(note);
+                noteElement.style.top = `${top}px`;
+                if (idx === 0) {
+                    const elementTop = parseInt(noteElement.style.top);
+                    categoryElement.style.top = elementTop - 25 + 'px';
+                }
+                note.element.pos = top;
+                top += 50;
+                notesList.appendChild(noteElement);
+            });
+        });
+        // notesList.appendChild(fragment);
         updateCategoriesList();
-        notesList.appendChild(fragment);
         notesList.style.height = index * 50 + 10 + 'px';
     });
 }
