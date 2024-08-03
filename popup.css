@@ -550,12 +550,14 @@ select#priority-input option[value="low"] {
 
 .card .priority-svg {
     position: absolute;
-    top: 10px;
+    top: 11px;
     left: 4px;
-    width: 20px;
-    height: 20px;
+    width: 18px;
+    height: 18px;
+    padding-right: 3px;
     pointer-events: none;
     transition: 0.5s ease;
+    border-right: 2px solid var(--border-color2);
 }
 
 .card.expanded .priority-svg {
