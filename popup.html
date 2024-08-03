@@ -117,23 +117,57 @@
         <button id="save-button" type="button" class="primary">Save Note</button>
     </div>
     <div id="edit-window" class="window">
-        <label for="title-input"></label><input type="text" id="title-input" placeholder="Title">
-        <div class="flex-row">
-            <label for="color-input">Color:</label>
-            <select id="color-input">
-                <option value="--card-blue">Blue</option>
-                <option value="--card-magenta">Magenta</option>
-                <option value="--card-red">Red</option>
-                <option value="--card-green">Green</option>
-                <option value="--card-cyan">Cyan</option>
-                <option value="--card-yellow">Yellow</option>
-            </select>
+        <div class="input-row">
+            <div class="input-label">Title:</div>
+            <div class="input-wrapper">
+                <label for="title-input"></label><input type="text" id="title-input" placeholder="Title">
+            </div>
         </div>
 
-        <label for="content-input"></label><textarea id="content-input"
-                                                     placeholder="Write your note here..."></textarea>
-        <button id="save-edit-button" type="button" class="primary">Save Note</button>
-        <button id="delete-button" type="button" class="primary danger">Delete Note</button>
+        <div class="input-row">
+            <div class="input-label">Content:</div>
+            <div class="input-wrapper">
+                <label for="content-input"></label><textarea id="content-input"
+                                                             placeholder="Write your note here..."></textarea>
+            </div>
+        </div>
+
+        <div class="input-row">
+            <div class="input-label">Color:</div>
+            <div class="input-wrapper">
+                <label for="color-input"></label>
+                <input type="hidden" id="color-input" name="color">
+                <div id="color-box" class="input-box">
+                    <!-- generating the colors with js -->
+                </div>
+            </div>
+        </div>
+        <div class="input-row">
+            <div class="input-row split">
+                <div class="input-label">Priority:</div>
+                <div class="input-wrapper">
+                    <label for="priority-input"></label>
+                    <input type="hidden" id="priority-input" name="priority">
+                    <div id="priority-box" class="input-box">
+                        <!-- generating the priorities with js -->
+                    </div>
+                </div>
+            </div>
+            <div class="input-row split">
+                <div class="input-label">Category:</div>
+                <div class="input-wrapper">
+                    <label for="category-input"></label>
+                    <input list="categories" id="category-input" name="category">
+                    <datalist id="categories">
+                        <!-- generating the categories with js -->
+                    </datalist>
+                </div>
+            </div>
+        </div>
+        <div class="flex-row">
+            <button id="save-edit-button" type="button" class="primary">Save Note</button>
+            <button id="delete-button" type="button" class="primary danger">Delete</button>
+        </div>
     </div>
     <div id="info-window" class="window">
         <div class="flex-row">
