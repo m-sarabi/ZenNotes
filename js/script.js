@@ -153,9 +153,9 @@ function updateThemeIcon() {
 }
 
 function themeInit() {
-    isDark = localStorage.getItem('devlog-theme') === null ?
+    isDark = localStorage.getItem('notes-theme') === null ?
         window.matchMedia('(prefers-color-scheme: dark)').matches :
-        localStorage.getItem('devlog-theme') === 'dark-mode';
+        localStorage.getItem('notes-theme') === 'dark-mode';
     document.body.classList.toggle('dark-mode', isDark);
     document.body.classList.toggle('light-mode', !isDark);
     document.querySelector(':root').style.setProperty('color-scheme', isDark ? 'dark' : 'light');
@@ -294,7 +294,7 @@ function initEvents() {
         isDark = !document.body.classList.contains('dark-mode');
         document.body.classList.toggle('dark-mode', isDark);
         document.body.classList.toggle('light-mode', !isDark);
-        localStorage.setItem('devlog-theme', document.body.classList.contains('dark-mode') ? 'dark-mode' : 'light-mode');
+        localStorage.setItem('notes-theme', document.body.classList.contains('dark-mode') ? 'dark-mode' : 'light-mode');
         document.querySelector(':root').style.setProperty('color-scheme', isDark ? 'dark' : 'light');
         updateThemeIcon();
     });
