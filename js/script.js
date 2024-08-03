@@ -43,6 +43,8 @@ function updateEditWindow() {
         contentInput.value = currentNote.content;
         colorInput.value = currentNote.color;
         colorInput.style.backgroundColor = `var(${currentNote.color})`;
+        document.getElementById('color-box').querySelector('div.selected')?.classList.remove('selected');
+        document.getElementById('color-box').querySelector(`div[data-color="${currentNote.color}"]`).classList.add('selected');
     } else {
         titleInput.value = '';
         contentInput.value = '';
@@ -178,6 +180,47 @@ function searchEvent() {
     });
 }
 
+function createColorOptions() {
+    const colorBox = document.getElementById('color-box');
+    colors.forEach((color) => {
+        const colorElement = document.createElement('div');
+        colorElement.classList.add('color-option', 'input-option');
+        colorElement.setAttribute('data-color', color);
+        colorElement.style.backgroundColor = `var(${color})`;
+        colorBox.appendChild(colorElement);
+        colorElement.addEventListener('click', function () {
+            document.getElementById('color-input').value = color;
+            document.getElementById('color-input').dispatchEvent(new Event('input'));
+            colorBox.querySelectorAll('.color-option').forEach((option) => {
+                option.classList.remove('selected');
+            });
+            colorElement.classList.add('selected');
+        });
+    });
+}
+
+function createPriorityOptions() {
+    const priorityBox = document.getElementById('priority-box');
+    const priorities = ['none', 'low', 'medium', 'high'];
+    priorities.forEach((priority, index) => {
+        const priorityElement = document.createElement('div');
+        if (index > 0) {
+            priorityElement.appendChild(document.getElementById(`${index}-star-svg`).content.cloneNode(true));
+        }
+        priorityElement.classList.add('priority-option', 'input-option');
+        priorityElement.setAttribute('data-priority', priority);
+        priorityBox.appendChild(priorityElement);
+        priorityElement.addEventListener('click', function () {
+            document.getElementById('priority-input').value = priority;
+            document.getElementById('priority-input').dispatchEvent(new Event('input'));
+            priorityBox.querySelectorAll('.priority-option').forEach((option) => {
+                option.classList.remove('selected');
+            });
+            priorityElement.classList.add('selected');
+        });
+    });
+}
+
 function initEvents() {
     document.addEventListener('click', function (event) {
         if (event.target.id === 'new-note-button') {
@@ -212,11 +255,6 @@ function initEvents() {
             showWindow('info-window');
         }
     });
-    document.addEventListener('change', function (event) {
-        if (event.target.id === 'color-input') {
-            event.target.style.backgroundColor = `var(${event.target.value})`;
-        }
-    });
     document.getElementById('theme-switch').addEventListener('click', () => {
         isDark = !document.body.classList.contains('dark-mode');
         document.body.classList.toggle('dark-mode', isDark);
@@ -235,11 +273,8 @@ function init() {
     initEvents();
     updateNotesList();
     themeInit();
-
-    const colorOptions = document.getElementById('color-input').getElementsByTagName('option');
-    for (let i = 0; i < colorOptions.length; i++) {
-        colorOptions[i].style.backgroundColor = `var(${colorOptions[i].value})`;
-    }
+    createColorOptions();
+    createPriorityOptions();
 }
 
 document.addEventListener('DOMContentLoaded', function () {
