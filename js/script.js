@@ -2,6 +2,7 @@
 let currentNote = null;
 let currentWindow = null;
 let isDark;
+const categories = [];
 
 function createNoteElement(note, index) {
     return note.element.render(index);
@@ -16,6 +17,9 @@ function updateNotesList() {
         const fragment = document.createDocumentFragment();
         let index = 0;
         notes.forEach((note) => {
+            if (note.category && !categories.includes(note.category)) {
+                categories.push(note.category);
+            }
             if (!note.element) {
                 note.element = new ExpandingNoteCard(note);
             }
@@ -29,22 +33,47 @@ function updateNotesList() {
             fragment.appendChild(noteElement);
             index++;
         });
+        updateCategoriesList();
         notesList.appendChild(fragment);
         notesList.style.height = index * 50 + 10 + 'px';
     });
+}
+
+function updateCategoriesList() {
+    const categoriesList = document.getElementById('categories');
+    categoriesList.innerHTML = '';
+    const fragment = document.createDocumentFragment();
+    categories.forEach((category) => {
+        const categoryElement = document.createElement('option');
+        categoryElement.value = category;
+        fragment.appendChild(categoryElement);
+    });
+    categoriesList.appendChild(fragment);
 }
 
 function updateEditWindow() {
     const titleInput = document.getElementById('title-input');
     const contentInput = document.getElementById('content-input');
     const colorInput = document.getElementById('color-input');
+    const categoryInput = document.getElementById('category-input');
+    const priorityInput = document.getElementById('priority-input');
     if (currentNote) {
         titleInput.value = currentNote.title;
         contentInput.value = currentNote.content;
+
+        // set color
         colorInput.value = currentNote.color;
-        colorInput.style.backgroundColor = `var(${currentNote.color})`;
         document.getElementById('color-box').querySelector('div.selected')?.classList.remove('selected');
         document.getElementById('color-box').querySelector(`div[data-color="${currentNote.color}"]`).classList.add('selected');
+
+        // set category
+        categoryInput.value = currentNote.category;
+
+        // set priority
+        priorityInput.value = currentNote.priority;
+        console.log(priorityInput.value, currentNote.priority);
+        document.getElementById('priority-box').querySelector('div.selected')?.classList.remove('selected');
+        document.getElementById('priority-box').querySelector(`div[data-priority="${currentNote.priority}"]`).classList.add('selected');
     } else {
         titleInput.value = '';
         contentInput.value = '';
@@ -243,6 +272,8 @@ function initEvents() {
                 currentNote.id,
                 document.getElementById('title-input').value,
                 document.getElementById('color-input').value,
+                document.getElementById('category-input').value,
+                document.getElementById('priority-input').value,
             );
             updateNote(newNote).then(() => {
                 updateNotesList();

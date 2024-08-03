@@ -1,12 +1,12 @@
 class Note {
-    constructor(content, id, title, color) {
+    constructor(content, id, title, color, category, priority) {
         // this.content = this.escapeHtml(content);
         this.content = content;
         this.id = id ? id : this.newId();
         this.title = title ? title : this.generateTitle();
         this.color = color ? color : this.randomColor();
-        this.category = '';
-        this.priority = 'none';
+        this.category = category ? category : '';
+        this.priority = priority ? priority : 'none';
         this.order = 0;
         this.element = null;
     }
