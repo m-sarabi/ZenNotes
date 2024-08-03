@@ -54,6 +54,14 @@ class ExpandingNoteCard {
         this.card.style.backgroundColor = `var(${this.note.color})`;
         this.card.appendChild(title);
 
+        const category = this.note.category ? document.createElement('div') : null;
+        if (category) {
+            category.className = 'category';
+            category.textContent = this.note.decodeText(this.note.category);
+            setDirection(category, this.note.category);
+            this.card.appendChild(category);
+        }
+
         this.card.appendChild(this.editButton);
         this.note.content.split('\n').forEach((line) => {
             const content = document.createElement('p');
@@ -64,9 +72,19 @@ class ExpandingNoteCard {
         this.card.style.top = `${index * 50 + 10}px`;
         this.card.style.zIndex = '1';
 
+        this.addPriority();
         this.expandEvent();
 
         return this.card;
+    }
+
+    addPriority() {
+        const priority = this.note.priority;
+        if (priority === 'none') return;
+        const priorityIndex = ['none', 'low', 'medium', 'high'].indexOf(priority);
+        const prioritySvg = document.getElementById(`${priorityIndex}-star-svg`).content.cloneNode(true).querySelector('svg');
+        prioritySvg.classList.add('priority-svg');
+        this.card.appendChild(prioritySvg);
     }
 
     expandEvent() {
