@@ -560,3 +560,9 @@ select#priority-input option[value="low"] {
 .flying-status.red {
     background-color: var(--red-status);
 }
+
+/* SVG */
+
+.star-svg {
+    fill: #FFD700;
+}
