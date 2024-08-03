@@ -230,7 +230,7 @@ button.danger:hover {
     margin-bottom: 10px;
 }
 
-/* Inputs */
+/* Input Fields */
 
 .input-row {
     display: flex;
@@ -298,6 +298,11 @@ input[type="text"], input[list] {
     width: 100%;
     border: 1px solid var(--border-color2);
     border-radius: 5px;
+}
+
+input[list] {
+    font-size: 14px;
+    padding: 7px;
 }
 
 textarea {
