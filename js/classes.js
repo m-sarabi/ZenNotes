@@ -5,6 +5,8 @@ class Note {
         this.id = id ? id : this.newId();
         this.title = title ? title : this.generateTitle();
         this.color = color ? color : this.randomColor();
+        this.category = '';
+        this.priority = 'none';
         this.order = 0;
         this.element = null;
     }
