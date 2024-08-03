@@ -19,6 +19,7 @@ function openDB() {
                 store.createIndex('title', 'title', {unique: false});
                 store.createIndex('content', 'content', {unique: false});
                 store.createIndex('color', 'color', {unique: false});
+                store.createIndex('category', 'category', {unique: false});
                 store.createIndex('order', 'order', {unique: false});
 
 
@@ -52,6 +53,7 @@ function addNote(note) {
                 noteId: note.id,
                 title: note.title,
                 color: note.color,
+                category: note.category,
                 order: note.order,
             });
 
@@ -77,7 +79,14 @@ function getNotes() {
             cursor.onsuccess = (event) => {
                 const cursor = event.target.result;
                 if (cursor) {
-                    notes.push(new Note(cursor.value.content, cursor.value.noteId, cursor.value.title, cursor.value.color, cursor.value.order));
+                    notes.push(new Note(
+                        cursor.value.content,
+                        cursor.value.noteId,
+                        cursor.value.title,
+                        cursor.value.color,
+                        cursor.value.category,
+                        cursor.value.order,
+                    ));
                     cursor.continue();
                 } else {
                     resolve(notes);
@@ -117,7 +126,14 @@ function getNoteById(noteId) {
             const request = store.get(noteId);
 
             request.onsuccess = () => {
-                resolve(new Note(request.result.content, request.result.noteId, request.result.title, request.result.color, request.result.order));
+                resolve(new Note(
+                    request.result.content,
+                    request.result.noteId,
+                    request.result.title,
+                    request.result.color,
+                    request.result.category,
+                    request.result.order
+                ));
             };
 
             request.onerror = () => {
@@ -137,6 +153,7 @@ function updateNote(note) {
                 noteId: note.id,
                 title: note.title,
                 color: note.color,
+                category: note.category,
                 order: note.order,
             });
 
