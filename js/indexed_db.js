@@ -20,6 +20,7 @@ function openDB() {
                 store.createIndex('content', 'content', {unique: false});
                 store.createIndex('color', 'color', {unique: false});
                 store.createIndex('category', 'category', {unique: false});
+                store.createIndex('priority', 'priority', {unique: false});
                 store.createIndex('order', 'order', {unique: false});
 
 
@@ -54,6 +55,7 @@ function addNote(note) {
                 title: note.title,
                 color: note.color,
                 category: note.category,
+                priority: note.priority,
                 order: note.order,
             });
 
@@ -85,6 +87,7 @@ function getNotes() {
                         cursor.value.title,
                         cursor.value.color,
                         cursor.value.category,
+                        cursor.value.priority,
                         cursor.value.order,
                     ));
                     cursor.continue();
@@ -132,6 +135,7 @@ function getNoteById(noteId) {
                     request.result.title,
                     request.result.color,
                     request.result.category,
+                    request.result.priority,
                     request.result.order
                 ));
             };
@@ -154,6 +158,7 @@ function updateNote(note) {
                 title: note.title,
                 color: note.color,
                 category: note.category,
+                priority: note.priority,
                 order: note.order,
             });
 
