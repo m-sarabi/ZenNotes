@@ -324,7 +324,6 @@ function initEvents() {
         } else if (event.target.id === 'save-button') {
             saveNote();
         } else if (event.target.id === 'back-button') {
-            document.getElementById('note').value = '';
             showWindow('notes-window');
         } else if (event.target.id === 'save-edit-button') {
             applySave(event.target.dataset.mode);
