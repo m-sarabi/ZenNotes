@@ -12,14 +12,7 @@ class Note {
     }
 
     generateTitle() {
-        let title;
-        if (this.content.startsWith('#')) {
-            title = this.content.slice(1).split('\n')[0];
-            this.content = this.content.slice(title.length + 1).trim();
-        } else {
-            title = this.content.split('\n')[0];
-        }
-        return title;
+        return this.content.split('\n')[0];
     }
 
     newId() {
