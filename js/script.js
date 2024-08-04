@@ -74,14 +74,17 @@ function updateNotesList() {
 
 function updateCategoriesList() {
     const categoriesList = document.getElementById('categories');
-    categoriesList.innerHTML = '';
+    const categoriesSearchList = document.getElementById('categories-search');
     const fragment = document.createDocumentFragment();
     categories.forEach((category) => {
         const categoryElement = document.createElement('option');
         categoryElement.value = category;
         fragment.appendChild(categoryElement);
     });
-    categoriesList.appendChild(fragment);
+    categoriesList.innerHTML = '';
+    categoriesSearchList.innerHTML = '';
+    categoriesList.appendChild(fragment.cloneNode(true));
+    categoriesSearchList.appendChild(fragment.cloneNode(true));
 }
 
 function updateEditWindow(mode) {
@@ -272,8 +275,8 @@ function createColorOptions() {
     });
 }
 
-function createPriorityOptions() {
-    const priorityBox = document.getElementById('priority-box');
+function createPriorityOptions(parent, input) {
+    // const priorityBox = document.getElementById('priority-box');
     const priorities = ['none', 'low', 'medium', 'high'];
     priorities.forEach((priority, index) => {
         const priorityElement = document.createElement('div');
@@ -283,11 +286,16 @@ function createPriorityOptions() {
         priorityElement.classList.add('priority-option', 'input-option');
         priorityElement.setAttribute('data-priority', index.toString());
         priorityElement.setAttribute('title', priority[0].toUpperCase() + priority.slice(1));
-        priorityBox.appendChild(priorityElement);
+        parent.appendChild(priorityElement);
         priorityElement.addEventListener('click', function () {
-            document.getElementById('priority-input').value = index;
-            document.getElementById('priority-input').dispatchEvent(new Event('input'));
-            priorityBox.querySelectorAll('.priority-option').forEach((option) => {
+            if (priorityElement.classList.contains('selected')) {
+                priorityElement.classList.remove('selected');
+                input.value = null;
+                return;
+            }
+            input.value = index;
+            input.dispatchEvent(new Event('input'));
+            parent.querySelectorAll('.priority-option').forEach((option) => {
                 option.classList.remove('selected');
             });
             priorityElement.classList.add('selected');
@@ -341,6 +349,15 @@ function initEvents() {
                 const status = new FlyingStatus('Copied', 'green');
                 status.render();
             });
+        } else if (event.target.id === 'reset-search-button') {
+            document.querySelector('#advanced-search-wrapper').querySelectorAll('input').forEach((input) => {
+                input.value = null;
+            });
+            document.querySelector('#priority-search-box').querySelectorAll('.priority-option').forEach((option) => {
+                option.classList.remove('selected');
+            });
+        } else if (event.target.id === 'advanced-search-button') {
+            document.getElementById('advanced-search-wrapper').classList.toggle('show');
         }
     });
     document.getElementById('theme-switch').addEventListener('click', () => {
@@ -370,7 +387,15 @@ function init() {
     updateNotesList();
     themeInit();
     createColorOptions();
-    createPriorityOptions();
+    createPriorityOptions(
+        document.getElementById('priority-box'),
+        document.getElementById('priority-input'),
+    );
+    createPriorityOptions(
+        document.getElementById('priority-search-box'),
+        document.getElementById('priority-search-input'),
+    );
+
 }
 
 document.addEventListener('DOMContentLoaded', function () {

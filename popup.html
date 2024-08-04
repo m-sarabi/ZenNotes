@@ -83,9 +83,46 @@
                 <input type="text" id="search" placeholder="Search...">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                      stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                     class="advanced-search">
+                     class="feather" id="advanced-search-button">
                     <polyline points="6 9 12 15 18 9"></polyline>
                 </svg>
+            </div>
+            <div id="advanced-search-wrapper">
+                <div class="input-row">
+                    <div class="input-label">Start Date:</div>
+                    <div class="input-wrapper">
+                        <label for="start-date-input"></label><input type="date" id="start-date-input">
+                        <label for="start-time-input"></label><input type="time" id="start-time-input">
+                    </div>
+                </div>
+                <div class="input-row">
+                    <div class="input-label">End Date:</div>
+                    <div class="input-wrapper">
+                        <label for="end-date-input"></label><input type="date" id="end-date-input">
+                        <label for="end-time-input"></label><input type="time" id="end-time-input">
+                    </div>
+                </div>
+                <div class="input-row">
+                    <div class="input-label">Priority:</div>
+                    <div class="input-wrapper">
+                        <label for="priority-input"></label>
+                        <input type="hidden" id="priority-search-input" name="priority-search">
+                        <div id="priority-search-box" class="input-box">
+                            <!-- generating the priorities with js -->
+                        </div>
+                    </div>
+                </div>
+                <div class="input-row">
+                    <div class="input-label">Category:</div>
+                    <div class="input-wrapper">
+                        <label for="category-search-input"></label>
+                        <input list="categories-search" id="category-search-input" name="categories-search">
+                        <datalist id="categories-search">
+                            <!-- generating the categories with js -->
+                        </datalist>
+                    </div>
+                </div>
+                <button id="reset-search-button" type="button" class="svg-button small faded" style="margin-left: 6px">Reset</button>
             </div>
             <button id="theme-switch" type="button" class="svg-button medium"></button>
             <button id="back-button" type="button" class="svg-button medium">
