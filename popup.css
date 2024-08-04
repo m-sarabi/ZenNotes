@@ -29,7 +29,6 @@ body.dark-mode {
     --title-color: #fff;
     --border-color: #fff;
     --border-color2: #fff5;
-    --button-text-color: #000;
     --button-hover-color: #fff;
     --button-hover-text-color: #000;
     --button-hover-border-color: #fff;
@@ -204,6 +203,7 @@ button.primary {
     padding: 10px;
     border-radius: 5px;
     margin-bottom: 5px;
+    flex-grow: 1;
 }
 
 button.primary:hover {
@@ -456,6 +456,11 @@ select#priority-input option[value="low"] {
     align-items: center;
     text-align: center;
     gap: 10px;
+}
+
+.flex-row.edit-buttons {
+    width: 50%;
+    align-self: center;
 }
 
 .flex-row p {

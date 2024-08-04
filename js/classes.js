@@ -65,6 +65,7 @@ class ExpandingNoteCard {
         this.card.appendChild(this.editButton);
         this.note.content.split('\n').forEach((line) => {
             const content = document.createElement('p');
+            while (line.includes('  ')) line = line.replace('  ', '&nbsp;&nbsp;');
             content.textContent = this.note.decodeText(line === '' ? '&nbsp;' : line);
             setDirection(content, line);
             this.card.appendChild(content);
@@ -80,7 +81,6 @@ class ExpandingNoteCard {
     addPriority() {
         const priority = this.note.priority;
         if (priority === '0' || priority === 0) return;
-        console.log(priority);
         const prioritySvg = document.getElementById(`${priority}-star-svg`).content.cloneNode(true).querySelector('svg');
         prioritySvg.classList.add('priority-svg');
         this.card.appendChild(prioritySvg);
@@ -142,7 +142,7 @@ class ExpandingNoteCard {
                 this.card.style.zIndex = '1';
             }, 1000);
             if (event && event.target.classList.contains('edit-button')) {
-                updateEditWindow();
+                updateEditWindow('edit');
                 showWindow('edit-window');
             } else {
                 currentNote = null;

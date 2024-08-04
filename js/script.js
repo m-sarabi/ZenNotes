@@ -84,33 +84,45 @@ function updateCategoriesList() {
     categoriesList.appendChild(fragment);
 }
 
-function updateEditWindow() {
+function updateEditWindow(mode) {
     const titleInput = document.getElementById('title-input');
     const contentInput = document.getElementById('content-input');
     const colorInput = document.getElementById('color-input');
     const categoryInput = document.getElementById('category-input');
     const priorityInput = document.getElementById('priority-input');
-    if (currentNote) {
+    if (mode === 'edit' && currentNote) {
         titleInput.value = currentNote.title;
         contentInput.value = currentNote.content;
 
         // set color
         colorInput.value = currentNote.color;
-        document.getElementById('color-box').querySelector('div.selected')?.classList.remove('selected');
-        document.getElementById('color-box').querySelector(`div[data-color="${currentNote.color}"]`).classList.add('selected');
 
         // set category
         categoryInput.value = currentNote.category;
 
         // set priority
         priorityInput.value = currentNote.priority;
-        document.getElementById('priority-box').querySelector('div.selected')?.classList.remove('selected');
-        document.getElementById('priority-box').querySelector(`div[data-priority="${currentNote.priority.toString()}"]`)
-            .classList.add('selected');
+
+        document.getElementById('delete-button').style.display = 'inline-block';
     } else {
         titleInput.value = '';
         contentInput.value = '';
+        colorInput.value = colors[Math.floor(Math.random() * colors.length)];
+        categoryInput.value = '';
+        priorityInput.value = '0';
+
+        document.getElementById('delete-button').style.display = 'none';
     }
+    // color
+    console.log(colorInput.value);
+    document.getElementById('color-box').querySelector('div.selected')?.classList.remove('selected');
+    document.getElementById('color-box').querySelector(`div[data-color="${colorInput.value}"]`).classList.add('selected');
+
+    //priority
+    document.getElementById('priority-box').querySelector('div.selected')?.classList.remove('selected');
+    document.getElementById('priority-box').querySelector(`div[data-priority="${priorityInput.value}"]`)
+        .classList.add('selected');
+    document.getElementById('save-edit-button').setAttribute('data-mode', mode);
 }
 
 function closeWindows() {
@@ -119,7 +131,7 @@ function closeWindows() {
     });
 }
 
-function showWindow(windowId) {
+function showWindow(windowId, mode) {
     currentWindow = windowId;
     const titleElement = document.querySelector('header h2');
     const backButton = document.getElementById('back-button');
@@ -127,17 +139,13 @@ function showWindow(windowId) {
     closeWindows();
     document.getElementById(windowId).style.display = 'flex';
     switch (windowId) {
-        case 'new-note-window':
-            currentNote = null;
-            titleElement.textContent = 'New Note';
-            break;
         case 'notes-window':
             updateNotesList();
             currentNote = null;
             titleElement.textContent = 'Quick Notes';
             break;
         case 'edit-window':
-            titleElement.textContent = 'Edit Note';
+            titleElement.textContent = mode === 'new' ? 'New Note' : 'Edit Note';
             break;
         case 'info-window':
             titleElement.textContent = 'About';
@@ -287,31 +295,39 @@ function createPriorityOptions() {
     });
 }
 
+function applySave(mode) {
+    const newNote = new Note(
+        document.getElementById('content-input').value,
+        mode === 'edit' ? currentNote.id : null,
+        document.getElementById('title-input').value,
+        document.getElementById('color-input').value,
+        document.getElementById('category-input').value,
+        Number(document.getElementById('priority-input').value),
+    );
+    if (mode === 'edit') {
+        updateNote(newNote).then(finish);
+    } else if (mode === 'new') {
+        addNote(newNote).then(finish);
+    }
+
+    function finish() {
+        updateNotesList();
+        showWindow('notes-window');
+    }
+}
+
 function initEvents() {
     document.addEventListener('click', function (event) {
         if (event.target.id === 'new-note-button') {
-            showWindow('new-note-window');
+            showWindow('edit-window', 'new');
+            updateEditWindow('new');
         } else if (event.target.id === 'save-button') {
             saveNote();
         } else if (event.target.id === 'back-button') {
             document.getElementById('note').value = '';
             showWindow('notes-window');
-        } /*else if (event.target.classList.contains('edit-button')) {
-            updateEditWindow();
-            showWindow('edit-window');
-        } */ else if (event.target.id === 'save-edit-button') {
-            const newNote = new Note(
-                document.getElementById('content-input').value,
-                currentNote.id,
-                document.getElementById('title-input').value,
-                document.getElementById('color-input').value,
-                document.getElementById('category-input').value,
-                Number(document.getElementById('priority-input').value),
-            );
-            updateNote(newNote).then(() => {
-                updateNotesList();
-                showWindow('notes-window');
-            });
+        } else if (event.target.id === 'save-edit-button') {
+            applySave(event.target.dataset.mode);
         } else if (event.target.id === 'delete-button') {
             deleteNoteById(currentNote.id).then(() => {
                 updateNotesList();
