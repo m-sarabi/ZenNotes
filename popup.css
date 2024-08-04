@@ -529,7 +529,7 @@ input[type=date] {
     font-weight: bold;
     padding: 5px;
     border-bottom: 1px solid var(--border-color);
-    word-break: break-all;
+    text-wrap: auto;
 }
 
 .flex-row a {
@@ -548,8 +548,9 @@ input[type=date] {
 }
 
 #donate-wallet-image {
-    width: 200px;
-    height: 200px;
+    width: 50%;
+    height: auto;
+    object-fit: contain;
     border-radius: 10px;
     padding: 10px;
     background-color: #fff;
