@@ -16,7 +16,6 @@ function updateNotesList() {
     currentNote = null;
     getNotes().then((notes) => {
         notesList.innerHTML = '';
-        // const fragment = document.createDocumentFragment();
         let index = 0;
         notes.forEach((note) => {
             if (note.category && !categories.includes(note.category)) {
@@ -31,11 +30,10 @@ function updateNotesList() {
                 !note.content.toLowerCase().includes(searchTerm.toLowerCase())) {
                 return;
             }
+            if (!filterNote(note)) return;
             if (!localCategories[note.category]) {
                 localCategories[note.category] = [];
             }
-            // const noteElement = createNoteElement(note, index);
-            // fragment.appendChild(noteElement);
             localCategories[note.category].push(note);
             index++;
         });
@@ -58,7 +56,6 @@ function updateNotesList() {
                 notesList.appendChild(noteElement);
             });
         });
-        // notesList.appendChild(fragment);
         updateCategoriesList();
         notesList.style.height = index * 50 + 10 + 'px';
     });
@@ -69,6 +66,31 @@ function updateNotesList() {
         categoryElement.appendChild(document.getElementById('tag-svg').content.cloneNode(true));
         categoryElement.appendChild(document.createTextNode(category));
         return categoryElement;
+    }
+
+    function filterNote(note) {
+        const startDate = createDate(
+            document.getElementById('start-date-input').value,
+            document.getElementById('start-time-input').value,
+        );
+        const endDate = createDate(
+            document.getElementById('end-date-input').value,
+            document.getElementById('end-time-input').value,
+            true,
+        );
+        const priority = document.getElementById('priority-search-input').value;
+        const category = document.getElementById('category-search-input').value;
+
+        if (startDate && note.id < startDate) return false;
+        if (endDate && note.id > endDate) return false;
+        if (priority !== '' && note.priority !== Number(priority)) return false;
+        return !(category && note.category !== category);
+    }
+
+    function createDate(date, time, end = false) {
+        if (!date) return null;
+        if (!time) return new Date(date + end ? 'T23:59:59' : 'T00:00');
+        return new Date(date + 'T' + time);
     }
 }
 
@@ -117,7 +139,6 @@ function updateEditWindow(mode) {
         document.getElementById('delete-button').style.display = 'none';
     }
     // color
-    console.log(colorInput.value);
     document.getElementById('color-box').querySelector('div.selected')?.classList.remove('selected');
     document.getElementById('color-box').querySelector(`div[data-color="${colorInput.value}"]`).classList.add('selected');
 
@@ -157,6 +178,7 @@ function showWindow(windowId, mode) {
     if (windowId === 'notes-window') {
         backButton.style.display = 'none';
         searchInput.style.display = 'block';
+        document.getElementById('reset-search-button').click();
     } else {
         backButton.style.display = 'block';
         searchInput.style.display = 'none';
@@ -276,7 +298,6 @@ function createColorOptions() {
 }
 
 function createPriorityOptions(parent, input) {
-    // const priorityBox = document.getElementById('priority-box');
     const priorities = ['none', 'low', 'medium', 'high'];
     priorities.forEach((priority, index) => {
         const priorityElement = document.createElement('div');
@@ -291,6 +312,7 @@ function createPriorityOptions(parent, input) {
             if (priorityElement.classList.contains('selected')) {
                 priorityElement.classList.remove('selected');
                 input.value = null;
+                input.dispatchEvent(new Event('input'));
                 return;
             }
             input.value = index;
@@ -326,6 +348,10 @@ function applySave(mode) {
 
 function initEvents() {
     document.addEventListener('click', function (event) {
+        if (!event.target.closest('#advanced-search-wrapper')
+            && !['advanced-search-button', 'search', 'theme-switch'].includes(event.target.id)) {
+            document.getElementById('advanced-search-wrapper').classList.toggle('show', false);
+        }
         if (event.target.id === 'new-note-button') {
             showWindow('edit-window', 'new');
             updateEditWindow('new');
@@ -356,8 +382,11 @@ function initEvents() {
             document.querySelector('#priority-search-box').querySelectorAll('.priority-option').forEach((option) => {
                 option.classList.remove('selected');
             });
+            document.getElementById('search').value = null;
+            updateNotesList();
         } else if (event.target.id === 'advanced-search-button') {
-            document.getElementById('advanced-search-wrapper').classList.toggle('show');
+            const wrapper = document.getElementById('advanced-search-wrapper');
+            wrapper.classList.toggle('show');
         }
     });
     document.getElementById('theme-switch').addEventListener('click', () => {
@@ -373,11 +402,16 @@ function initEvents() {
     searchEvent();
 
     document.addEventListener('keydown', function (event) {
-        console.log(currentWindow);
         if (event.key === 'Escape' && currentWindow !== 'notes-window') {
             showWindow('notes-window');
             event.preventDefault();
         }
+    });
+
+    document.querySelector('#advanced-search-wrapper').querySelectorAll('input').forEach((input) => {
+        input.addEventListener('input', function () {
+            updateNotesList();
+        });
     });
 }
 

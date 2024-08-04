@@ -355,9 +355,16 @@ select#priority-input option[value="low"] {
     position: relative;
 }
 
-#search-wrapper svg {
+#search-wrapper button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     position: absolute;
+    margin: 0;
+    padding: 0;
     right: 15px;
+    border: 0;
+    background: none;
     top: 50%;
     transform: translateY(-50%);
     opacity: 0.5;
@@ -366,7 +373,7 @@ select#priority-input option[value="low"] {
     transition: all 0.2s ease-in-out;
 }
 
-#search-wrapper svg:hover {
+#search-wrapper button:hover {
     opacity: 1;
     background-color: var(--background-color);
 }
@@ -406,7 +413,7 @@ select#priority-input option[value="low"] {
     border-radius: 8px 0 8px 8px;
     box-shadow: 1px 1px 2px var(--border-color2), -1px -1px 2px var(--border-color2), -1px 1px 2px var(--border-color2);
     background-color: var(--background-color2);
-    transition: max-height .4s ease-in-out, opacity .4s cubic-bezier(1, 0, 0.5, 1);
+    transition: max-height 0.2s ease-in-out, opacity 0.2s cubic-bezier(1, 0, 0.5, 1);
 }
 
 #advanced-search-wrapper.show {
@@ -620,6 +627,10 @@ input[type=date] {
     min-height: 60px;
 }
 
+.card p:last-of-type {
+    margin-bottom: 10px;
+}
+
 .card.expanded {
     width: 90%;
     filter: drop-shadow(0 2px 5px #000b);
@@ -631,6 +642,7 @@ input[type=date] {
 .card.full {
     scrollbar-width: thin;
     overflow: auto;
+    max-height: 100%;
 }
 
 .card .category {
@@ -663,6 +675,14 @@ input[type=date] {
 .card.expanded .priority-svg {
     opacity: 0;
     transform: scale(0);
+}
+
+.card .time {
+    right: 5px;
+    bottom: 5px;
+    color: var(--text-color);
+    font-size: 12px;
+    opacity: 0.8;
 }
 
 /* Flying Status */
