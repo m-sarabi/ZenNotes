@@ -1,13 +1,17 @@
 {
   "manifest_version": 3,
   "name": "Quick Note Taker",
+  "side_panel": {
+    "default_path": "popup.html"
+  },
   "version": "1.0",
   "description": "Take quick notes directly from your browser.",
   "permissions": [
     "storage",
     "contextMenus",
     "scripting",
-    "activeTab"
+    "activeTab",
+    "sidePanel"
   ],
   "background": {
     "service_worker": "background.js"
