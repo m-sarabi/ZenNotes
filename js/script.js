@@ -57,7 +57,7 @@ function updateNotesList() {
             });
         });
         updateCategoriesList();
-        notesList.style.height = index * 50 + 10 + 'px';
+        notesList.style.height = top + 10 + 'px';
     });
 
     function createCategoryElement(category) {
