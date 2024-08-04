@@ -89,7 +89,7 @@ function updateNotesList() {
 
     function createDate(date, time, end = false) {
         if (!date) return null;
-        if (!time) return new Date(date + end ? 'T23:59:59' : 'T00:00');
+        if (!time) return new Date(date + (end ? 'T23:59:59' : 'T00:00'));
         return new Date(date + 'T' + time);
     }
 }
