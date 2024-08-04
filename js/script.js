@@ -41,19 +41,18 @@ function updateNotesList() {
         });
         let top = 10;
         Object.keys(localCategories).sort().forEach((category) => {
-            if (category) top += 30;
-
-            const categoryElement = document.createElement('div');
-            categoryElement.className = 'category-header';
-            categoryElement.innerHTML = category ? category + '<hr>' : '';
-            notesList.appendChild(categoryElement);
-            localCategories[category].forEach((note, idx) => {
+            if (category) {
+                const categoryElement = createCategoryElement(category);
+                categoryElement.style.top = (top + 2) + 'px';
+                notesList.appendChild(categoryElement);
+                top += 30;
+            }
+            localCategories[category] = localCategories[category].sort((a, b) => {
+                return b.priority - a.priority;
+            });
+            localCategories[category].forEach((note) => {
                 const noteElement = createNoteElement(note);
                 noteElement.style.top = `${top}px`;
-                if (idx === 0) {
-                    const elementTop = parseInt(noteElement.style.top);
-                    categoryElement.style.top = elementTop - 25 + 'px';
-                }
                 note.element.pos = top;
                 top += 50;
                 notesList.appendChild(noteElement);
@@ -63,6 +62,14 @@ function updateNotesList() {
         updateCategoriesList();
         notesList.style.height = index * 50 + 10 + 'px';
     });
+
+    function createCategoryElement(category) {
+        const categoryElement = document.createElement('div');
+        categoryElement.className = 'category-header';
+        categoryElement.appendChild(document.getElementById('tag-svg').content.cloneNode(true));
+        categoryElement.appendChild(document.createTextNode(category));
+        return categoryElement;
+    }
 }
 
 function updateCategoriesList() {
@@ -97,9 +104,9 @@ function updateEditWindow() {
 
         // set priority
         priorityInput.value = currentNote.priority;
-        console.log(priorityInput.value, currentNote.priority);
         document.getElementById('priority-box').querySelector('div.selected')?.classList.remove('selected');
-        document.getElementById('priority-box').querySelector(`div[data-priority="${currentNote.priority}"]`).classList.add('selected');
+        document.getElementById('priority-box').querySelector(`div[data-priority="${currentNote.priority.toString()}"]`)
+            .classList.add('selected');
     } else {
         titleInput.value = '';
         contentInput.value = '';
@@ -266,11 +273,11 @@ function createPriorityOptions() {
             priorityElement.appendChild(document.getElementById(`${index}-star-svg`).content.cloneNode(true));
         }
         priorityElement.classList.add('priority-option', 'input-option');
-        priorityElement.setAttribute('data-priority', priority);
+        priorityElement.setAttribute('data-priority', index.toString());
         priorityElement.setAttribute('title', priority[0].toUpperCase() + priority.slice(1));
         priorityBox.appendChild(priorityElement);
         priorityElement.addEventListener('click', function () {
-            document.getElementById('priority-input').value = priority;
+            document.getElementById('priority-input').value = index;
             document.getElementById('priority-input').dispatchEvent(new Event('input'));
             priorityBox.querySelectorAll('.priority-option').forEach((option) => {
                 option.classList.remove('selected');
@@ -299,7 +306,7 @@ function initEvents() {
                 document.getElementById('title-input').value,
                 document.getElementById('color-input').value,
                 document.getElementById('category-input').value,
-                document.getElementById('priority-input').value,
+                Number(document.getElementById('priority-input').value),
             );
             updateNote(newNote).then(() => {
                 updateNotesList();

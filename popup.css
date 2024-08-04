@@ -24,7 +24,7 @@ html {
 body.dark-mode {
     --background-color: #313131;
     --background-color2: #1b1b1b;
-    --paper-lines-color: rgba(74, 94, 143, 0.53);
+    --paper-lines-color: rgba(153, 180, 238, 0.53);
     --text-color: #fff;
     --title-color: #fff;
     --border-color: #fff;
@@ -34,6 +34,7 @@ body.dark-mode {
     --button-hover-text-color: #000;
     --button-hover-border-color: #fff;
     --status-background: #444;
+    --category-background: #fff2;
     --green-status: #008800;
     --red-status: #880000;
     --card-red: #440000;
@@ -47,7 +48,7 @@ body.dark-mode {
 body.light-mode {
     --background-color: #f9f9fb;
     --background-color2: #fff;
-    --paper-lines-color: rgba(153, 180, 238, 0.53);
+    --paper-lines-color: rgba(74, 94, 143, 0.53);
     --text-color: #000;
     --title-color: #000;
     --border-color: #000;
@@ -56,6 +57,7 @@ body.light-mode {
     --button-hover-text-color: #fff;
     --button-hover-border-color: #000;
     --status-background: #f0f0f0;
+    --category-background: #0002;
     --green-status: #77FF77;
     --red-status: #FF7777;
     --card-red: #ffabab;
@@ -429,14 +431,19 @@ select#priority-input option[value="low"] {
     display: flex;
     flex-direction: row;
     align-items: center;
-    width: 50%;
-    gap: 10px;
+    gap: 5px;
     user-select: none;
+    background-image: linear-gradient(to right, var(--category-background) 50%, transparent 120%);
+    padding: 4px 6px;
+    border-radius: 10px;
+    font-size: 12px;
 }
 
-.category-header hr {
-    flex-grow: 1;
-    height: 1px;
+.category-header svg {
+    width: 14px;
+    height: 14px;
+    color: goldenrod;
+    stroke-width: 3;
 }
 
 /* Flex Row */
@@ -526,7 +533,7 @@ select#priority-input option[value="low"] {
     font-family: 'Indie Flower', cursive;
     max-width: calc(100% - 10px);
     overflow-wrap: break-word;
-    background-image: repeating-linear-gradient(transparent, transparent 24px, #9ae8 25px, #9ae8 26px);
+    background-image: repeating-linear-gradient(transparent, transparent 24px, var(--paper-lines-color) 25px, var(--paper-lines-color) 26px);
     background-position-y: -4px;
     background-attachment: local;
 }

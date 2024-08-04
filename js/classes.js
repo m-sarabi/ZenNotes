@@ -6,7 +6,7 @@ class Note {
         this.title = title ? title : this.generateTitle();
         this.color = color ? color : this.randomColor();
         this.category = category ? category : '';
-        this.priority = priority ? priority : 'none';
+        this.priority = priority ? priority : 0;
         this.order = 0;
         this.element = null;
     }
@@ -47,8 +47,7 @@ class ExpandingNoteCard {
         this.pos = null;
     }
 
-    render(index) {
-        this.index = index;
+    render() {
         const title = document.createElement('h3');
         title.textContent = this.note.decodeText(this.note.title);
         setDirection(title, this.note.title);
@@ -70,7 +69,6 @@ class ExpandingNoteCard {
             setDirection(content, line);
             this.card.appendChild(content);
         });
-        // this.card.style.top = `${index * 50 + 10}px`;
         this.card.style.zIndex = '1';
 
         this.addPriority();
@@ -81,9 +79,9 @@ class ExpandingNoteCard {
 
     addPriority() {
         const priority = this.note.priority;
-        if (priority === 'none') return;
-        const priorityIndex = ['none', 'low', 'medium', 'high'].indexOf(priority);
-        const prioritySvg = document.getElementById(`${priorityIndex}-star-svg`).content.cloneNode(true).querySelector('svg');
+        if (priority === '0' || priority === 0) return;
+        console.log(priority);
+        const prioritySvg = document.getElementById(`${priority}-star-svg`).content.cloneNode(true).querySelector('svg');
         prioritySvg.classList.add('priority-svg');
         this.card.appendChild(prioritySvg);
     }
@@ -134,8 +132,6 @@ class ExpandingNoteCard {
             }, 500);
         } else {
             this.card.classList.remove('full');
-            // document.getElementById('edit-button').classList.toggle('show', false);
-            // this.card.style.top = `${this.index * 50 + 10}px`;
             this.card.style.top = `${this.pos}px`;
             this.card.style.height = '40px';
             this.card.scrollTo(0, 0);
