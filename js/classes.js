@@ -70,6 +70,17 @@ class ExpandingNoteCard {
             setDirection(content, line);
             this.card.appendChild(content);
         });
+        const timeElement = document.createElement('div');
+        timeElement.className = 'time';
+        const time = new Date(this.note.id);
+        timeElement.textContent = [time.getFullYear(), time.getMonth() + 1, time.getDate()]
+                .map((item) => item.toString().padStart(2, '0'))
+                .join('-') + ' ' +
+            [time.getHours(), time.getMinutes(), time.getSeconds()]
+                .map((item) => item.toString().padStart(2, '0'))
+                .join(':');
+        this.card.appendChild(timeElement);
+
         this.card.style.zIndex = '1';
 
         this.addPriority();
