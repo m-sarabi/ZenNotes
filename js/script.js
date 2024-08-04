@@ -336,6 +336,11 @@ function initEvents() {
             });
         } else if (event.target.id === 'info-button') {
             showWindow('info-window');
+        } else if (event.target.id === 'donate-wallet-image') {
+            navigator.clipboard.writeText('UQBNk6M45pb1JJ7_i1Aqfre5QhZCmIEqOECmw5z_mS5tlPHi').then(() => {
+                const status = new FlyingStatus('Copied', 'green');
+                status.render();
+            });
         }
     });
     document.getElementById('theme-switch').addEventListener('click', () => {
