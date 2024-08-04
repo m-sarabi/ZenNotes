@@ -349,6 +349,14 @@ function initEvents() {
     dragScrollEvent();
     disableScroll();
     searchEvent();
+
+    document.addEventListener('keydown', function (event) {
+        console.log(currentWindow);
+        if (event.key === 'Escape' && currentWindow !== 'notes-window') {
+            showWindow('notes-window');
+            event.preventDefault();
+        }
+    });
 }
 
 function init() {
