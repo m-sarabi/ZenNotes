@@ -107,8 +107,7 @@ header > h2 {
     font-weight: bold;
     padding: 5px;
     flex: 1;
-    /*overflow: hidden;*/
-    /*white-space: nowrap;*/
+    user-select: none;
 }
 
 footer {
@@ -364,6 +363,10 @@ select#priority-input option[value="low"] {
     background-color: var(--background-color2);
     color: var(--text-color);
     transition: all 0.2s ease-in-out;
+}
+
+#search::placeholder {
+    user-select: none;
 }
 
 #search:focus {
