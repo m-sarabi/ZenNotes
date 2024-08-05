@@ -166,7 +166,7 @@ function showWindow(windowId, mode) {
         case 'notes-window':
             updateNotesList();
             currentNote = null;
-            titleElement.textContent = 'Quick Notes';
+            titleElement.textContent = 'ZenNotes';
             break;
         case 'edit-window':
             titleElement.textContent = mode === 'new' ? 'New Note' : 'Edit Note';

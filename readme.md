@@ -1,6 +1,6 @@
-# Quick Note Taker
+# ZenNotes Extension
 
-Quick Note Taker is a Chromium extension that allows you to quickly take notes directly from your browser. You can save selected text from any webpage as a note, and manage your notes through a simple interface.
+ZenNotes is a Chromium extension that allows you to quickly take notes directly from your browser. You can save selected text from any webpage as a note, and manage your notes through a simple interface.
 
 ## Features
 
