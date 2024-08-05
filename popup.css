@@ -34,6 +34,7 @@ body.dark-mode {
     --button-hover-border-color: #fff;
     --status-background: #444;
     --category-background: #fff2;
+    --wallet-color: #000;
     --green-status: #008800;
     --red-status: #880000;
     --card-red: #440000;
@@ -57,6 +58,7 @@ body.light-mode {
     --button-hover-border-color: #000;
     --status-background: #f0f0f0;
     --category-background: #0002;
+    --wallet-color: #fff;
     --green-status: #77FF77;
     --red-status: #FF7777;
     --card-red: #ffabab;
@@ -547,13 +549,15 @@ input[type=date] {
     color: var(--text-color);
 }
 
-#donate-wallet-image {
+/* Wallet image */
+
+.donate-wallet-image {
     width: 50%;
     height: auto;
     object-fit: contain;
     border-radius: 10px;
     padding: 10px;
-    background-color: #fff;
+    background-color: var(--wallet-color);
     box-shadow: 0 2px 6px #0007;
     cursor: pointer;
     user-select: none;
@@ -562,9 +566,28 @@ input[type=date] {
     transition: 0.4s ease-in-out;
 }
 
-#donate-wallet-image:hover {
+.donate-wallet-image:hover {
     transform: scale(1.05);
     box-shadow: 0 4px 8px #0007;
+}
+
+.dark-mode .donate-wallet-image.white {
+    display: none;
+}
+
+.light-mode .donate-wallet-image.black {
+    display: none;
+}
+
+.wallet-address {
+    text-wrap: wrap;
+    width: 80%;
+    word-break: break-all;
+    border-radius: 10px;
+    padding: 5px;
+    box-shadow: 0 0 5px 2px var(--category-background) inset;
+    background-image: radial-gradient(ellipse, transparent 0%, var(--category-background) 100%);
+    cursor: pointer;
 }
 
 /* Card */

@@ -370,11 +370,13 @@ function initEvents() {
             });
         } else if (event.target.id === 'info-button') {
             showWindow('info-window');
-        } else if (event.target.id === 'donate-wallet-image') {
-            navigator.clipboard.writeText('UQBNk6M45pb1JJ7_i1Aqfre5QhZCmIEqOECmw5z_mS5tlPHi').then(() => {
-                const status = new FlyingStatus('Copied', 'green');
-                status.render();
-            });
+        } else if (event.target.classList.contains('wallet')) {
+            if (document.getSelection().toString().length === 0) {
+                navigator.clipboard.writeText('UQBNEQ5HZPcBRy4xmvRDvJnwZF9B8OYOXq9dvqwUB2H5IJ7h').then(() => {
+                    const status = new FlyingStatus('Copied', 'green');
+                    status.render();
+                });
+            }
         } else if (event.target.id === 'reset-search-button') {
             document.querySelector('#advanced-search-wrapper').querySelectorAll('input').forEach((input) => {
                 input.value = null;
