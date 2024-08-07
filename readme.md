@@ -1,6 +1,6 @@
 # ZenNotes Extension
 
-ZenNotes is a Chromium extension that allows you to quickly take notes directly from your browser. You can save selected text from any webpage as a note, and manage your notes through a simple interface.
+ZenNotes is a Chromium/firefox extension that allows you to quickly take notes directly from your browser. You can save selected text from any webpage as a note, and manage your notes through a simple interface.
 
 ## Features
 
@@ -24,10 +24,22 @@ ZenNotes is a Chromium extension that allows you to quickly take notes directly 
 
 ## Installation
 
-1. Clone the repository or download the ZIP file.
+### Chrome/Edge
+
+1. Clone the repository or download the ZIP file and extract it.
 2. Open Chrome/Edge and navigate to `chrome://extensions/`/`edge://extensions/`.
 3. Enable "Developer mode".
 4. Click on "Load unpacked" and select the directory containing the extension files.
+
+### Firefox
+Go to [ZenNotes on Firefox Add-ons!](https://addons.mozilla.org/en-GB/firefox/addon/zennotes/) and download it there.
+
+In case you want to install it manually:
+1. Clone the repository or download the ZIP file and extract it.
+2. Replace `manifest.json` with `manifest_firefox.json`.
+3. Go to `about:debugging#/runtime/this-firefox`
+4. Select `Load Temporary Add-on…`
+5. Select any file in the main folder (like manifest.json)
 
 ## Usage
 
@@ -38,7 +50,7 @@ ZenNotes is a Chromium extension that allows you to quickly take notes directly 
 
 ## Planned Features
 
-- Reorder mote categories.
+- Reorder categories.
 
 ## License
 
