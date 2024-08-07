@@ -22,7 +22,7 @@ chrome.contextMenus.onClicked.addListener(function (info, tab) {
                     selectedText = response.content;
                     const note = new Note(selectedText, null, null, null, tab.url.split('//')[1].split('/')[0]);
                     addNote(note).then(() => {
-                        console.log('Note added:', note);
+                        chrome.runtime.sendMessage({action: 'reload'}).then();
                     });
                 }
             });

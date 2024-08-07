@@ -1,5 +1,5 @@
-import { Note, ExpandingNoteCard, FlyingStatus } from './classes.js';
-import { addNote, getNotes, deleteNoteById, getNoteById, updateNote } from './indexed_db.js';
+import {Note, ExpandingNoteCard, FlyingStatus} from './classes.js';
+import {addNote, getNotes, deleteNoteById, getNoteById, updateNote} from './indexed_db.js';
 
 // global variables
 window.currentNote = null;
@@ -426,6 +426,12 @@ function initEvents() {
             updateNotesList();
         });
     });
+
+    chrome.runtime.onMessage.addListener((request, sender) => {
+        if (request.action === 'reload') {
+            updateNotesList();
+        }
+    });
 }
 
 function init() {
@@ -442,7 +448,6 @@ function init() {
         document.getElementById('priority-search-box'),
         document.getElementById('priority-search-input'),
     );
-
 }
 
 document.addEventListener('DOMContentLoaded', function () {
