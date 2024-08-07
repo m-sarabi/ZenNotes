@@ -1,5 +1,5 @@
-import { Note } from './js/classes.js';
-import { addNote } from './js/indexed_db.js';
+import {Note} from './js/classes.js';
+import {addNote} from './js/indexed_db.js';
 
 let selectedText = '';
 
@@ -20,7 +20,7 @@ chrome.contextMenus.onClicked.addListener(function (info, tab) {
             chrome.tabs.sendMessage(tab.id, {message: 'getSelectedText'}, function (response) {
                 if (response && response.content) {
                     selectedText = response.content;
-                    const note = new Note(selectedText);
+                    const note = new Note(selectedText, null, null, null, tab.url.split('//')[1].split('/')[0]);
                     addNote(note).then(() => {
                         console.log('Note added:', note);
                     });
