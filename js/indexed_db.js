@@ -1,12 +1,4 @@
-const colors = [
-    '--card-red',
-    '--card-yellow',
-    '--card-magenta',
-    '--card-green',
-    '--card-cyan',
-    '--card-blue',
-];
-
+import { Note } from './classes.js';
 function openDB() {
     return new Promise((resolve, reject) => {
         const request = indexedDB.open('NotesDB', 1);
@@ -43,7 +35,7 @@ function openDB() {
     });
 }
 
-function addNote(note) {
+export function addNote(note) {
     return openDB().then((db) => {
         return new Promise((resolve, reject) => {
             const transaction = db.transaction(['Notes'], 'readwrite');
@@ -71,7 +63,7 @@ function addNote(note) {
     });
 }
 
-function getNotes() {
+export function getNotes() {
     return openDB().then((db) => {
         return new Promise((resolve, reject) => {
             const store = db.transaction('Notes').objectStore('Notes');
@@ -104,7 +96,7 @@ function getNotes() {
     });
 }
 
-function deleteNoteById(noteId) {
+export function deleteNoteById(noteId) {
     return openDB().then((db) => {
         return new Promise((resolve, reject) => {
             const store = db.transaction('Notes', 'readwrite').objectStore('Notes');
@@ -122,7 +114,7 @@ function deleteNoteById(noteId) {
     });
 }
 
-function getNoteById(noteId) {
+export function getNoteById(noteId) {
     return openDB().then((db) => {
         return new Promise((resolve, reject) => {
             const store = db.transaction('Notes').objectStore('Notes');
@@ -148,7 +140,7 @@ function getNoteById(noteId) {
     });
 }
 
-function updateNote(note) {
+export function updateNote(note) {
     return openDB().then((db) => {
         return new Promise((resolve, reject) => {
             const store = db.transaction('Notes', 'readwrite').objectStore('Notes');

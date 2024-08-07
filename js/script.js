@@ -1,8 +1,19 @@
+import { Note, ExpandingNoteCard, FlyingStatus } from './classes.js';
+import { addNote, getNotes, deleteNoteById, getNoteById, updateNote } from './indexed_db.js';
+
 // global variables
-let currentNote = null;
+window.currentNote = null;
 let currentWindow = null;
 let isDark;
 const categories = [];
+const colors = [
+    '--card-red',
+    '--card-yellow',
+    '--card-magenta',
+    '--card-green',
+    '--card-cyan',
+    '--card-blue',
+];
 
 function createNoteElement(note, index) {
     return note.element.render(index);
@@ -13,7 +24,7 @@ function updateNotesList() {
     const searchTerm = document.getElementById('search')?.value.trim().toLowerCase();
     const localCategories = {};
     categories.splice(0, categories.length);
-    currentNote = null;
+    window.currentNote = null;
     getNotes().then((notes) => {
         notesList.innerHTML = '';
         let index = 0;
@@ -115,18 +126,18 @@ function updateEditWindow(mode) {
     const colorInput = document.getElementById('color-input');
     const categoryInput = document.getElementById('category-input');
     const priorityInput = document.getElementById('priority-input');
-    if (mode === 'edit' && currentNote) {
-        titleInput.value = currentNote.title;
-        contentInput.value = currentNote.content;
+    if (mode === 'edit' && window.currentNote) {
+        titleInput.value = window.currentNote.title;
+        contentInput.value = window.currentNote.content;
 
         // set color
-        colorInput.value = currentNote.color;
+        colorInput.value = window.currentNote.color;
 
         // set category
-        categoryInput.value = currentNote.category;
+        categoryInput.value = window.currentNote.category;
 
         // set priority
-        priorityInput.value = currentNote.priority;
+        priorityInput.value = window.currentNote.priority;
 
         document.getElementById('delete-button').style.display = 'inline-block';
     } else {
@@ -165,7 +176,7 @@ function showWindow(windowId, mode) {
     switch (windowId) {
         case 'notes-window':
             updateNotesList();
-            currentNote = null;
+            window.currentNote = null;
             titleElement.textContent = 'ZenNotes';
             break;
         case 'edit-window':
@@ -238,8 +249,8 @@ function dragScrollEvent() {
     function startDrag(event) {
         if (event.target.classList.contains('card') || event.target.parentNode.classList.contains('card')) return;
 
-        if (currentNote && currentNote.element.card.classList.contains('expanded')) {
-            currentNote.element.toggleExpand();
+        if (window.currentNote && window.currentNote.element.card.classList.contains('expanded')) {
+            window.currentNote.element.toggleExpand();
         }
 
         dragging = true;
@@ -252,7 +263,7 @@ function dragScrollEvent() {
     }
 
     function drag(event) {
-        if (currentNote && currentNote.element.card.classList.contains('expanded')) return;
+        if (window.currentNote && window.currentNote.element.card.classList.contains('expanded')) return;
         if (dragging && event.buttons === 1) {
             scrollContainer.scrollTop -= event.movementY;
         }
@@ -328,7 +339,7 @@ function createPriorityOptions(parent, input) {
 function applySave(mode) {
     const newNote = new Note(
         document.getElementById('content-input').value,
-        mode === 'edit' ? currentNote.id : null,
+        mode === 'edit' ? window.currentNote.id : null,
         document.getElementById('title-input').value,
         document.getElementById('color-input').value,
         document.getElementById('category-input').value,
@@ -362,7 +373,7 @@ function initEvents() {
         } else if (event.target.id === 'save-edit-button') {
             applySave(event.target.dataset.mode);
         } else if (event.target.id === 'delete-button') {
-            deleteNoteById(currentNote.id).then(() => {
+            deleteNoteById(window.currentNote.id).then(() => {
                 updateNotesList();
                 showWindow('notes-window');
                 const status = new FlyingStatus('Note deleted', 'red');
@@ -437,3 +448,6 @@ function init() {
 document.addEventListener('DOMContentLoaded', function () {
     init();
 });
+
+window.updateEditWindow = updateEditWindow;
+window.showWindow = showWindow;

@@ -1,5 +1,5 @@
-importScripts('js/classes.js');
-importScripts('js/indexed_db.js');
+import { Note } from './js/classes.js';
+import { addNote } from './js/indexed_db.js';
 
 let selectedText = '';
 

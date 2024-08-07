@@ -1,20 +1,16 @@
 {
   "manifest_version": 3,
   "name": "ZenNotes",
-  "side_panel": {
-    "default_path": "popup.html"
-  },
   "version": "1.0",
-  "description": "Take quick notes directly from your browser.",
+  "description": "With ZenNotes take quick notes directly from your favorite browser.",
   "permissions": [
     "storage",
     "contextMenus",
     "scripting",
-    "activeTab",
-    "sidePanel"
+    "activeTab"
   ],
   "background": {
-    "service_worker": "background.js",
+    "scripts": ["background.js"],
     "type": "module"
   },
   "action": {
@@ -25,6 +21,15 @@
       "48": "icons/icon-48.png",
       "128": "icons/icon-128.png"
     }
+  },
+  "sidebar_action": {
+    "default_icon": {
+      "16": "icons/icon-16.png",
+      "32": "icons/icon-32.png",
+      "48": "icons/icon-48.png",
+      "128": "icons/icon-128.png"
+    },
+    "default_panel": "popup.html"
   },
   "icons": {
     "16": "icons/icon-16.png",
@@ -39,8 +44,14 @@
         "js/classes.js"
       ],
       "matches": [
-        "<all_urls>"
+        "*://*/*"
       ]
     }
-  ]
+  ],
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "m.sarabi.jkd@gmail.com-ZenNotes",
+      "strict_min_version": "112.0"
+    }
+  }
 }

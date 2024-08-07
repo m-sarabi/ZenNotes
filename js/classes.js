@@ -1,4 +1,4 @@
-class Note {
+export class Note {
     constructor(content, id, title, color, category, priority) {
         // this.content = this.escapeHtml(content);
         this.content = content;
@@ -30,7 +30,7 @@ class Note {
     }
 }
 
-class ExpandingNoteCard {
+export class ExpandingNoteCard {
     constructor(note) {
         this.note = note;
         this.card = document.createElement('div');
@@ -118,7 +118,7 @@ class ExpandingNoteCard {
     }
 
     toggleExpand(event) {
-        if (currentNote && !this.card.classList.contains('expanded') && currentNote !== this.note) {
+        if (window.currentNote && !this.card.classList.contains('expanded') && window.currentNote !== this.note) {
             return;
         }
         this.card.classList.toggle('expanded');
@@ -128,7 +128,7 @@ class ExpandingNoteCard {
             this.card.style.zIndex = '2';
             this.card.style.height = Math.min(document.getElementById('notes-wrapper').offsetHeight - 40, 600) + 'px';
             this.card.style.userSelect = 'text';
-            currentNote = this.note;
+            window.currentNote = this.note;
             document.getElementById('new-note-button').classList.add('invisible');
             setTimeout(() => {
                 if (!this.card.classList.contains('expanded')) return;
@@ -149,13 +149,13 @@ class ExpandingNoteCard {
                 updateEditWindow('edit');
                 showWindow('edit-window');
             } else {
-                currentNote = null;
+                window.currentNote = null;
             }
         }
     }
 }
 
-class FlyingStatus {
+export class FlyingStatus {
     constructor(text, type) {
         this.text = text;
         this.element = document.createElement('div');
@@ -179,3 +179,12 @@ function setDirection(element, text) {
         element.dir = 'rtl';
     }
 }
+
+const colors = [
+    '--card-red',
+    '--card-yellow',
+    '--card-magenta',
+    '--card-green',
+    '--card-cyan',
+    '--card-blue',
+];
