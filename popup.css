@@ -8,6 +8,7 @@ Source: https://github.com/m-sarabi/ZenNotes
 
 :root {
     color-scheme: dark;
+    --card-p-font: 'Indie Flower', cursive;
 }
 
 * {
@@ -466,6 +467,13 @@ input[type=date] {
     background-color: var(--background-color);
 }
 
+#options-window {
+}
+
+.options-select {
+    width: 50%;
+}
+
 #notes-window {
     display: flex;
     flex-direction: column;
@@ -640,7 +648,7 @@ input[type=date] {
     cursor: auto;
     font-size: 18px;
     line-height: 26px;
-    font-family: 'Indie Flower', cursive;
+    font-family: var(--card-p-font), serif;
     max-width: calc(100% - 10px);
     overflow-wrap: break-word;
     background-image: repeating-linear-gradient(transparent, transparent 24px, var(--paper-lines-color) 25px, var(--paper-lines-color) 26px);

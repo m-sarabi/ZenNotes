@@ -182,6 +182,9 @@ function showWindow(windowId, mode) {
         case 'edit-window':
             titleElement.textContent = mode === 'new' ? 'New Note' : 'Edit Note';
             break;
+        case 'options-window':
+            titleElement.textContent = 'Options';
+            break;
         case 'info-window':
             titleElement.textContent = 'About';
             break;
@@ -230,13 +233,42 @@ function updateThemeIcon() {
 }
 
 function themeInit() {
-    isDark = localStorage.getItem('notes-theme') === null ?
+    let isDark = localStorage.getItem('notes-theme') === null ?
         window.matchMedia('(prefers-color-scheme: dark)').matches :
         localStorage.getItem('notes-theme') === 'dark-mode';
     document.body.classList.toggle('dark-mode', isDark);
     document.body.classList.toggle('light-mode', !isDark);
     document.querySelector(':root').style.setProperty('color-scheme', isDark ? 'dark' : 'light');
     updateThemeIcon();
+}
+
+function setFont(font) {
+    if (font === 'browser') {
+        document.documentElement.style.setProperty('--card-p-font', 'initial');
+    } else {
+        document.documentElement.style.setProperty('--card-p-font', '\'Indie Flower\', cursive');
+    }
+}
+
+function getFonts() {
+    let fonts = [];
+    const options = [...document.getElementById('options-font').options];
+    options.forEach(option => {
+        fonts.push(option.value);
+    });
+    return fonts;
+}
+
+function fontInit() {
+    let currentFont = localStorage.getItem('note-font') === null ? 'indie-flower' : localStorage.getItem('note-font');
+    let fonts = getFonts();
+    if (fonts.includes(currentFont)) {
+        setFont(currentFont);
+        document.getElementById('options-font').value = currentFont;
+    } else {
+        setFont('indie-flower');
+        document.getElementById('options-font').value = currentFont;
+    }
 }
 
 function dragScrollEvent() {
@@ -381,6 +413,8 @@ function initEvents() {
             });
         } else if (event.target.id === 'info-button') {
             showWindow('info-window');
+        } else if (event.target.id === 'options-button') {
+            showWindow('options-window');
         } else if (event.target.classList.contains('wallet')) {
             if (document.getSelection().toString().length === 0) {
                 navigator.clipboard.writeText('UQBNEQ5HZPcBRy4xmvRDvJnwZF9B8OYOXq9dvqwUB2H5IJ7h').then(() => {
@@ -409,6 +443,10 @@ function initEvents() {
         localStorage.setItem('notes-theme', document.body.classList.contains('dark-mode') ? 'dark-mode' : 'light-mode');
         document.querySelector(':root').style.setProperty('color-scheme', isDark ? 'dark' : 'light');
         updateThemeIcon();
+    });
+    document.getElementById('options-font').addEventListener('change', (event) => {
+        setFont(event.target.value);
+        localStorage.setItem('note-font', event.target.value);
     });
     dragScrollEvent();
     disableScroll();
@@ -439,6 +477,7 @@ function init() {
     initEvents();
     updateNotesList();
     themeInit();
+    fontInit();
     createColorOptions();
     createPriorityOptions(
         document.getElementById('priority-box'),
