@@ -32,13 +32,6 @@ chrome.contextMenus.onClicked.addListener(function (info, tab) {
 
 chrome.commands.onCommand.addListener((command) => {
     if (command === 'open_side_panel') {
-        chrome.windows.getCurrent(function (currentWindow) {
-            const windowId = currentWindow.id;
-            chrome.sidePanel.open({windowId: windowId});
-        });
-        // note: for firefox:
-        /*
-        browser.sidebarAction.toggle();
-         */
+        browser.sidebarAction.toggle().then();
     }
 });
