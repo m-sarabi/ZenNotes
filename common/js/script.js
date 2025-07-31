@@ -487,6 +487,7 @@ function init() {
         document.getElementById('priority-search-box'),
         document.getElementById('priority-search-input'),
     );
+    document.getElementById('version').textContent = 'Version: ' + chrome.runtime.getManifest().version
 }
 
 document.addEventListener('DOMContentLoaded', function () {
